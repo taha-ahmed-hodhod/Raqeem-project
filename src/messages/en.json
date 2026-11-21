@@ -1,0 +1,261 @@
+{
+  "brand": {
+    "name": "Raqeem",
+    "fullName": "Raqeem | رقيم",
+    "tagline": "Personalized printed coloring books for your child"
+  },
+  "metadata": {
+    "title": "Raqeem | Personalized Printed Kids Coloring Books",
+    "description": "Turn your child's photo into a custom printed coloring book featuring their name and character, delivered across Egypt."
+  },
+  "announcement": {
+    "text": "🎁 A personalized coloring book for your child | 🚚 Delivery across all Egyptian governorates"
+  },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "howItWorks": "How It Works",
+    "pricing": "Pricing & Offers",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "orderCta": "Order Your Book",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "switchLanguage": "العربية",
+    "switchLanguageAria": "Switch to Arabic"
+  },
+  "home": {
+    "badge": "The Most Memorable Gift for Every Child in Egypt",
+    "headlinePrefix": "Not just a coloring book... your child becomes ",
+    "headlineHighlight": "the hero of the story!",
+    "subtitle": "Turn your child's photo into a personalized coloring book with their own name and character, printed in high quality and delivered to your door.",
+    "primaryCta": "Order Your Child's Book",
+    "secondaryCta": "View Our Work",
+    "requestNote": "Submitting a request is free and is not a confirmed purchase. The Raqeem team will contact you to confirm details.",
+    "trustChips": {
+      "customDesign": "Custom Design",
+      "highQualityPrint": "High-Quality Print",
+      "egyptDelivery": "Egypt-Wide Delivery"
+    },
+    "packageSelector": {
+      "title": "Choose your child's book edition:",
+      "noPrepaymentNote": "No online prepayment required",
+      "pages12Title": "12 Coloring Pages",
+      "pages12Desc": "Great as a joyful starter gift",
+      "pages24Title": "24 Coloring Pages",
+      "pages24Desc": "Complete adventure & richer scenes",
+      "currency": "EGP",
+      "startingFrom": "Selected Book Price"
+    },
+    "showcase": {
+      "liveTag": "The story hero coloring their printed book",
+      "specialEdition": "Custom Printed Keepsake",
+      "handDrawnCaption": "Hand-crafted illustrations featuring your child",
+      "paperSpec": "Thick 150gsm Paper",
+      "slide1Label": "Coloring Scene 1",
+      "slide2Label": "Coloring Scene 2",
+      "slide3Label": "Printed Cover"
+    },
+    "whyRaqeem": {
+      "badge": "Why Parents Choose Raqeem",
+      "title": "A Gift That Sparks Smiles and Real Creativity",
+      "subtitle": "We designed Raqeem books to inspire children away from screens with a tangible creative adventure starring themselves.",
+      "cards": {
+        "hero": {
+          "title": "Your Child Is the Hero",
+          "description": "Every page features your child's name, likeness, and personality in imaginative adventures that build confidence and pride."
+        },
+        "customArt": {
+          "title": "Custom Hand-Crafted Design",
+          "description": "Our artists illustrate clear, age-appropriate coloring outlines tailored to your child's favorite themes and interests."
+        },
+        "pageOptions": {
+          "title": "12 or 24 Pages",
+          "description": "Full flexibility to choose the book edition that best fits your child's age and your budget."
+        },
+        "printQuality": {
+          "title": "Premium Print Quality",
+          "description": "Printed on thick 150gsm bleed-resistant white paper with a vibrant laminated cover and sturdy spiral binding."
+        },
+        "egyptDelivery": {
+          "title": "Egypt-Wide Delivery",
+          "description": "Carefully packaged delivery across all 27 Egyptian governorates right to your doorstep."
+        },
+        "familyOffers": {
+          "title": "Special Family Offers",
+          "description": "Automatic 10% off when ordering 2 books for siblings, and 20% off when ordering 3 or more books."
+        }
+      }
+    },
+    "howItWorks": {
+      "badge": "Simple & No Online Checkout",
+      "title": "4 Easy Steps to Receive Your Child's Book",
+      "subtitle": "No credit card required on the website. Our team personally confirms every detail with you via WhatsApp or phone.",
+      "steps": {
+        "step1": {
+          "title": "Send Your Child's Photo & Details",
+          "description": "Choose 12 or 24 pages, enter your child's name, age, and interests, and upload their photo securely.",
+          "tag": "Private & Protected Photo Storage"
+        },
+        "step2": {
+          "title": "Raqeem Team Contacts You",
+          "description": "We reach out via WhatsApp or phone to confirm story details, delivery address, and your governorate's shipping fee.",
+          "tag": "Friendly Personal Follow-up"
+        },
+        "step3": {
+          "title": "We Illustrate & Print the Book",
+          "description": "Our artists turn your child's likeness into a cartoon character and coloring scenes, then print and spiral-bind the book.",
+          "tag": "High-Quality Physical Print"
+        },
+        "step4": {
+          "title": "Delivered to Your Doorstep",
+          "description": "Receive the finished printed coloring book at home anywhere in Egypt and enjoy colorful family memories.",
+          "tag": "All 27 Governorates Covered"
+        }
+      }
+    },
+    "portfolioSection": {
+      "badge": "The Transformation Magic",
+      "title": "From Real Photo to Coloring Book Hero",
+      "subtitle": "See how a real photograph transforms into a cartoon character and crisp black-and-white coloring pages.",
+      "filterAll": "All",
+      "filterReal": "Real Consented Work",
+      "filterDemo": "Demo Samples",
+      "stageOriginal": "Original Photo",
+      "stageCartoon": "Cartoon Character",
+      "stageColoring": "Coloring Page",
+      "viewCaseStudy": "View Transformation Details",
+      "viewAllPortfolio": "Browse Full Portfolio"
+    },
+    "pricingSection": {
+      "badge": "Transparent & Family-Friendly Pricing",
+      "title": "Coloring Book Packages & Offers",
+      "subtitle": "Clear EGP pricing including custom character illustration, premium printing, and spiral binding.",
+      "shippingNote": "Shipping cost will be confirmed with you after submitting the request based on your governorate. No online payment is collected during request submission.",
+      "choose12": "Request 12-Page Book",
+      "choose24": "Request 24-Page Book",
+      "features12": {
+        "f1": "12 custom coloring pages with your child's name & likeness",
+        "f2": "Full-color illustrated hardcover",
+        "f3": "Durable spiral binding that lays flat for coloring",
+        "f4": "Thick 150gsm white coloring paper"
+      },
+      "features24": {
+        "f1": "24 custom coloring pages with richer story scenes",
+        "f2": "Tailored to your child's hobbies and favorite themes",
+        "f3": "Full-color hardcover & sturdy spiral binding",
+        "f4": "Thick 150gsm bleed-resistant coloring paper"
+      }
+    },
+    "reviewsSection": {
+      "badge": "Parent Impressions",
+      "title": "Customer Reviews",
+      "demoNotice": "Cards marked (Preview Sample) are clearly labeled design placeholders until verified customer testimonials are published from the Admin Dashboard."
+    },
+    "aboutSnippet": {
+      "title": "About Raqeem",
+      "body": "At Raqeem, we turn your children's photos into joyful, colorful memories. Every book is custom-designed so your child becomes the hero of their own adventure.",
+      "cta": "Learn More About Raqeem"
+    },
+    "finalCta": {
+      "eyebrow": "An Unforgettable Keepsake Gift",
+      "title": "Ready to Make Your Child the Hero of Their Book?",
+      "subtitle": "Submitting a request is free and requires no online payment. Our team will contact you to confirm every detail.",
+      "button": "Start Your Request Now"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "About Raqeem",
+      "subtitle": "At Raqeem, we turn your children's photos into joyful, colorful memories. Every book is custom-designed so your child becomes the hero of their own adventure.",
+      "storyTitle": "Our Story & Mission",
+      "storyBody": "Raqeem was born from a desire to create a tangible, meaningful gift that brings children away from digital screens and into an artistic adventure where they see themselves as the hero. Our team manually illustrates every character with care and prints on premium paper in Egypt.",
+      "valuesTitle": "What Makes Raqeem Printed Books Special",
+      "v1Title": "Tangible Physical Book — Not a Digital PDF",
+      "v1Body": "We deliver a physically printed, spiral-bound coloring book with a laminated color cover and thick paper right to your home.",
+      "v2Title": "Strict Child Photo Privacy & Safety",
+      "v2Body": "Children's photos are used strictly to prepare your requested book and are never published publicly without separate, explicit guardian consent.",
+      "v3Title": "Personal Confirmation Before Production",
+      "v3Body": "Our team contacts you via WhatsApp or phone to review all details and confirm pricing and shipping before printing."
+    },
+    "portfolio": {
+      "title": "Raqeem Portfolio Gallery",
+      "subtitle": "Explore the transformation from real photograph to cartoon character, line-art coloring pages, and printed book.",
+      "backToPortfolio": "Back to Portfolio",
+      "orderSimilarCta": "Request a Similar Book for Your Child",
+      "transformationStagesTitle": "The 4 Transformation Stages at Raqeem",
+      "stage4Mockup": "Final Printed Coloring Book"
+    },
+    "howItWorks": {
+      "title": "How Raqeem Works",
+      "subtitle": "Your child's book journey from uploading their photo to receiving the printed book at your doorstep."
+    },
+    "pricing": {
+      "title": "Pricing & Quantity Offers",
+      "subtitle": "Choose the right book edition for your child and enjoy automatic sibling and bundle discounts.",
+      "examplesTitle": "Price Calculation Examples (Excluding Shipping)",
+      "ex1": "1 × 12-page book = 250 EGP",
+      "ex2": "1 × 24-page book = 350 EGP",
+      "ex3": "2 × 12-page books = 500 − 10% (50) = 450 EGP",
+      "ex4": "3 × 24-page books = 1050 − 20% (210) = 840 EGP",
+      "ex5": "1 × 12-page + 1 × 24-page = 600 − 10% (60) = 540 EGP"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "subtitle": "Clear answers about the request process, child photo privacy, print specifications, and pricing & shipping."
+    },
+    "contact": {
+      "title": "Contact the Raqeem Team",
+      "subtitle": "We are happy to answer your questions and help you request a personalized coloring book for your child.",
+      "channelsTitle": "Contact Channels",
+      "workingHoursLabel": "Working Hours",
+      "orderDirectHint": "You can submit your child's book request directly through our order request page and our team will contact you promptly."
+    },
+    "privacy": {
+      "title": "Privacy Policy & Child Photo Protection",
+      "subtitle": "At Raqeem, we uphold strict privacy and security standards to protect your child's photos and family data.",
+      "s1Title": "1. Photo Collection & Guardian Consent",
+      "s1Body": "No child photo is uploaded or processed without explicit guardian consent on the request form authorizing photo processing solely to prepare the requested coloring book.",
+      "s2Title": "2. Private Storage & Access Control",
+      "s2Body": "Original uploaded photos are stored in a private storage bucket inaccessible to the public and accessed only by authorized staff via short-lived signed URLs.",
+      "s3Title": "3. No Public Display Without Separate Permission",
+      "s3Body": "We never display or publish a child's photo in our portfolio or marketing pages without separately verified guardian publishing consent.",
+      "s4Title": "4. Data Retention & Right to Deletion",
+      "s4Body": "Parents and guardians may request complete deletion of their child's photos and personal details at any time by contacting the Raqeem team."
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "subtitle": "Terms governing custom coloring book requests submitted through the Raqeem website.",
+      "s1Title": "1. Request-First Nature of the Website",
+      "s1Body": "Submitting a request on Raqeem is free and does not constitute an online payment or binding checkout. An order is confirmed only after our team contacts the guardian via WhatsApp or phone to confirm final details.",
+      "s2Title": "2. Pricing, Discounts & Governorate Shipping",
+      "s2Body": "Book prices and quantity discounts (10% for 2 books, 20% for 3+ books) apply to the books subtotal only, excluding shipping. Shipping varies by Egyptian governorate and is confirmed with the customer.",
+      "s3Title": "3. Custom Illustration & Physical Printing",
+      "s3Body": "Because each book is custom-illustrated and printed with the child's name and likeness, our team confirms specifications with the guardian prior to final printing."
+    },
+    "order": {
+      "title": "Order Your Child's Book Now",
+      "subtitle": "Fill in the details below, and the Raqeem team will contact you to confirm the book details, final price, and shipping.",
+      "selectedPackageLabel": "Preselected Edition:",
+      "submitCta": "Submit Request",
+      "helperNote": "Submitting a request is free and is not a confirmed purchase. The Raqeem team will contact you to confirm details."
+    },
+    "orderSuccess": {
+      "title": "Your request has been received! The Raqeem team will contact you soon to confirm details, price, and delivery.",
+      "referenceLabel": "Request Reference:",
+      "backHome": "Back to Homepage"
+    }
+  },
+  "footer": {
+    "about": "At Raqeem, we turn your children's photos into joyful, colorful memories. Every book is custom-designed so your child becomes the hero of their own adventure.",
+    "qualityAssurance": "Premium Print & Custom Hand-Crafted Art • Reviewed Before Printing",
+    "linksTitle": "Quick Links",
+    "legalTitle": "Privacy & Legal",
+    "privacyNote": "Submitting a request is free with no online prepayment. Children's photos are protected in private storage.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "contactPending": "Delivery across all 27 Egyptian governorates",
+    "rights": "Raqeem © {year}"
+  }
+}

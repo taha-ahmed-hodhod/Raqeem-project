@@ -1,0 +1,389 @@
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import type { Locale } from "@/lib/i18n/routing";
+import { getPublicCatalogAndCmsData } from "@/features/content/cms-data";
+import { getPublishedPortfolioItems } from "@/features/portfolio/portfolio-data";
+import { HeroInteractiveSection } from "@/components/shared/hero-interactive-section";
+import { PortfolioFilterGrid } from "@/components/shared/portfolio-filter-grid";
+import { PackagesGrid } from "@/components/shared/packages-grid";
+import { ReviewsCarouselSection } from "@/components/shared/reviews-carousel-section";
+import { SocialFollowSection } from "@/components/shared/social-follow-section";
+import { PromotionalPosterPopup } from "@/components/shared/promotional-poster-popup";
+import { ScrollReveal } from "@/components/shared/scroll-reveal";
+import { OrderRequestForm } from "@/features/orders/order-request-form";
+
+export const dynamic = "force-dynamic";
+
+export default async function HomePage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const typedLocale = locale as Locale;
+  const isAr = typedLocale === "ar";
+
+  const [t, cmsData, portfolioItems] = await Promise.all([
+    getTranslations("home"),
+    getPublicCatalogAndCmsData(),
+    getPublishedPortfolioItems(),
+  ]);
+
+  const subtitleOverride = isAr
+    ? cmsData.heroOverrides.subtitleAr
+    : cmsData.heroOverrides.subtitleEn;
+
+  const whyCards = [
+    {
+      key: "hero",
+      icon: "face",
+      iconBg: "bg-[#FFF9DE] text-[#B76B00]",
+      titleAr: "طفلك هو البطل",
+      descAr:
+        "كل صفحة تحمل اسم طفلك وتفاصيل شكله وشخصيته في سيناريوهات شيقة تشعره بالفخر والاعتزاز بنفسه.",
+    },
+    {
+      key: "customArt",
+      icon: "brush",
+      iconBg: "bg-[#FFF0F6] text-[#b02360]",
+      titleAr: "تصميم يدوي مخصص",
+      descAr:
+        "فنانون ومصممون محترفون يرسمون خطوط تلوين واضحة ومناسبة لعمر طفلك واهتماماته (فضاء، حيوانات، طيران، أميرات).",
+    },
+    {
+      key: "pageOptions",
+      icon: "layers",
+      iconBg: "bg-[#F3EAFF] text-[#6324c5]",
+      titleAr: "12 أو 24 صفحة",
+      descAr:
+        "مرونة تامة في اختيار حجم الكتاب وقصته المناسبة للميزانية وسن طفلك دون أي التزامات معقدة.",
+    },
+    {
+      key: "printQuality",
+      icon: "article",
+      iconBg: "bg-[#F2EEFA] text-[#4a00a2]",
+      titleAr: "طباعة وورق ممتاز",
+      descAr:
+        "نطبع على ورق سميك فاخر 150 جرام مضاد لتسرب ألوان الفلوماستر والخشب، مع غلاف كوشيه مقوى وسلك أمان معدني.",
+    },
+    {
+      key: "egyptDelivery",
+      icon: "local_shipping",
+      iconBg: "bg-[#FFF9DE] text-[#B76B00]",
+      titleAr: "توصيل سريع لكل مصر",
+      descAr:
+        "شحن مؤمن بعناية وتغليف هدية مميز يصلك في القاهرة، الإسكندرية، والدلتا، والصعيد بكل سلاسة وأمان.",
+    },
+    {
+      key: "familyOffers",
+      icon: "card_giftcard",
+      iconBg: "bg-[#FFF0F6] text-[#b02360]",
+      titleAr: "خصومات وباقات عائلية",
+      descAr:
+        "خصم فوري 10% عند طلب كتابين للأخوة، و20% عند طلب 3 كتب أو أكثر لتوفير هدايا استثنائية لأبناء العائلة.",
+    },
+  ] as const;
+
+  const howSteps = [
+    {
+      num: "1",
+      key: "step1",
+      topIcon: "cloud_upload",
+      badgeBg: "bg-[#F3EAFF] text-[#6324c5]",
+      titleAr: "ارسل بيانات طفلك",
+      descAr:
+        "سجل اسم طفلك وعمره وهواياته، وارفق صورته الواضحة عبر النموذج أو واتساب مع خصوصية تامة.",
+      tagIcon: "lock",
+      tagAr: "الصور مشفرة ومحذوفة بعد التسليم",
+      tagColor: "text-[#16875D]",
+    },
+    {
+      num: "2",
+      key: "step2",
+      topIcon: "forum",
+      badgeBg: "bg-[#FFF9DE] text-[#B76B00]",
+      titleAr: "تواصل مباشر وتأكيد",
+      descAr:
+        "يتواصل معك أحد أفراد فريقنا لمراجعة تفاصيل القصة وتأكيد عنوان الشحن ومصاريف التوصيل المحددة لمحافظتك.",
+      tagIcon: "support_agent",
+      tagAr: "متابعة شخصية ودودة",
+      tagColor: "text-[#625B75]",
+    },
+    {
+      num: "3",
+      key: "step3",
+      topIcon: "design_services",
+      badgeBg: "bg-[#FFF0F6] text-[#b02360]",
+      titleAr: "الرسم والتنفيذ والطباعة",
+      descAr:
+        "فنان رقيم يرسم ملامح طفلك كشخصية كرتونية مبهجة، ثم يُطبع الكتاب ويُغلّف بالسلك المعدني الأنيق.",
+      tagIcon: "stars",
+      tagAr: "مراجعة الغلاف قبل الطباعة",
+      tagColor: "text-[#6324c5]",
+    },
+    {
+      num: "4",
+      key: "step4",
+      topIcon: "markunread_mailbox",
+      badgeBg: "bg-[#F2EEFA] text-[#6324c5]",
+      titleAr: "استلام عند باب البيت",
+      descAr:
+        "يصلك طرد الهدية الأنيق حتى منزلك، لتبدأ مع طفلك أوقاتاً دافئة مليئة بالألوان والذكريات الجميلة.",
+      tagIcon: "payments",
+      tagAr: "الدفع عند الاستلام متاح",
+      tagColor: "text-[#16875D]",
+    },
+  ] as const;
+
+  return (
+    <div className="flex w-full flex-col">
+      {/* Promotional Poster Popup (shown once per session when enabled in Admin) */}
+      <PromotionalPosterPopup poster={cmsData.posterPopup} />
+
+      {/* 1. Hero Section (Live Admin-editable Hero Image) */}
+      <HeroInteractiveSection
+        bookVariants={cmsData.bookVariants}
+        subtitleOverride={subtitleOverride}
+        heroImageUrl={cmsData.heroOverrides.imageUrl}
+      />
+
+      {/* 2. Why Raqeem? (لماذا كتاب رقيم؟) */}
+      <section className="w-full bg-white py-16 shadow-sm">
+        <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 lg:px-10">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-1.5 text-center">
+            <div className="inline-flex items-center gap-1 rounded-full bg-[#F3EAFF] px-3 py-1 text-[14px] font-bold text-[#6324c5]">
+              <span
+                className="material-symbols-outlined text-[18px]"
+                aria-hidden="true"
+              >
+                verified
+              </span>
+              <span>{t("whyRaqeem.badge")}</span>
+            </div>
+            <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+              {t("whyRaqeem.title")}
+            </h2>
+            <p className="text-[16px] leading-[1.8] text-[#625B75]">
+              {isAr
+                ? "صممنا تجربة كتب رقيم لتشجيع الأطفال على الابتعاد عن شاشات الموبايل والاستمتاع بتجربة إبداعية بطلها هو طفلك نفسه."
+                : t("whyRaqeem.subtitle")}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {whyCards.map((card) => (
+              <div
+                key={card.key}
+                className="group flex flex-col gap-3 rounded-2xl bg-[#F8F5FF] p-6 shadow-sm transition-all hover:bg-[#ede4ff]/40"
+              >
+                <div
+                  className={`flex h-14 w-14 items-center justify-center rounded-2xl transition-transform group-hover:scale-110 ${card.iconBg}`}
+                >
+                  <span
+                    className="material-symbols-outlined text-[32px]"
+                    aria-hidden="true"
+                  >
+                    {card.icon}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[21px] leading-[1.4] font-bold text-[#241747] lg:text-[24px]">
+                    {isAr
+                      ? card.titleAr
+                      : t(`whyRaqeem.cards.${card.key}.title`)}
+                  </h3>
+                  <p className="text-[16px] leading-relaxed text-[#625B75]">
+                    {isAr
+                      ? card.descAr
+                      : t(`whyRaqeem.cards.${card.key}.description`)}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 3. How It Works (4-Step Stepper) */}
+      <section
+        id="how-it-works-section"
+        className="mx-auto w-full max-w-7xl px-6 py-16 lg:px-10"
+      >
+        <div className="flex flex-col gap-12">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-1.5 text-center">
+            <span className="rounded-full bg-[#ffd9e2]/50 px-3 py-1 text-[14px] font-bold text-[#660032]">
+              {isAr ? "بكل بساطة ودون تعقيد" : t("howItWorks.badge")}
+            </span>
+            <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+              {t("howItWorks.title")}
+            </h2>
+            <p className="text-[16px] leading-[1.8] text-[#625B75]">
+              {isAr
+                ? "لا داعي لبطاقات بنكية أونلاين. نراجع كل خطوة معك شخصياً عبر واتساب لتضمن أفضل نتيجة تسعد قلب طفلك."
+                : t("howItWorks.subtitle")}
+            </p>
+          </div>
+
+          <div className="relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {howSteps.map((step) => (
+              <div
+                key={step.key}
+                className="group relative flex flex-col gap-3 overflow-hidden rounded-2xl bg-white p-6 shadow-sm"
+              >
+                <div className="flex items-center justify-between">
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl text-[24px] font-bold ${step.badgeBg}`}
+                  >
+                    {step.num}
+                  </div>
+                  <span
+                    className="material-symbols-outlined text-[24px] text-[#625B75]"
+                    aria-hidden="true"
+                  >
+                    {step.topIcon}
+                  </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[21px] leading-[1.4] font-bold text-[#241747]">
+                    {isAr
+                      ? step.titleAr
+                      : t(`howItWorks.steps.${step.key}.title`)}
+                  </h3>
+                  <p className="text-[14px] leading-relaxed font-medium text-[#625B75]">
+                    {isAr
+                      ? step.descAr
+                      : t(`howItWorks.steps.${step.key}.description`)}
+                  </p>
+                </div>
+                <div
+                  className={`mt-auto flex items-center gap-1 pt-2 text-[12px] font-medium ${step.tagColor}`}
+                >
+                  <span
+                    className="material-symbols-outlined text-[16px]"
+                    aria-hidden="true"
+                  >
+                    {step.tagIcon}
+                  </span>
+                  <span>
+                    {isAr
+                      ? step.tagAr
+                      : t(`howItWorks.steps.${step.key}.tag`)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 4. Transformation Portfolio / Before & After */}
+      <section id="portfolio-section" className="w-full bg-white py-16">
+        <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          <PortfolioFilterGrid items={portfolioItems} />
+        </div>
+      </section>
+
+      {/* 5. Pricing & Special Offers (الأسعار والعروض) */}
+      <section
+        id="pricing-section"
+        className="mx-auto w-full max-w-7xl px-6 py-16 lg:px-10"
+      >
+        <div className="flex flex-col gap-12">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-1.5 text-center">
+            <span className="rounded-full bg-[#FFF9DE] px-3 py-1 text-[14px] font-bold text-[#B76B00]">
+              {isAr
+                ? "شفافية كاملة وأسعار في متناول الأسرة"
+                : t("pricingSection.badge")}
+            </span>
+            <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+              {isAr
+                ? "باقات كتب التلوين المخصصة"
+                : t("pricingSection.title")}
+            </h2>
+            <p className="text-[16px] leading-[1.8] text-[#625B75]">
+              {isAr
+                ? "سعر ثابت ومحدد بالجنيه المصري يشمل الرسم المخصص والطباعة الفاخرة والتغليف الخاص."
+                : t("pricingSection.subtitle")}
+            </p>
+          </div>
+
+            {/* 3 Packages Grid: 12-Page, 24-Page (with 12-Color Gift) & Corporate Package */}
+            <ScrollReveal>
+              <PackagesGrid
+                locale={typedLocale}
+                bookVariants={cmsData.bookVariants}
+                promotions={cmsData.promotions}
+              />
+            </ScrollReveal>
+
+          {/* Transparent Shipping Note */}
+          <div className="mx-auto flex w-full max-w-4xl items-start gap-2 rounded-xl bg-[#F2EEFA] p-3 text-[12px] font-medium text-[#625B75] shadow-sm">
+            <span
+              className="material-symbols-outlined mt-0.5 shrink-0 text-[20px] text-[#6324c5]"
+              aria-hidden="true"
+            >
+              info
+            </span>
+            <span>
+              <strong>
+                {isAr
+                ? "ملاحظة هامة بخصوص الشحن والديبوزت:"
+                  : "Important note on shipping & deposit:"}
+              </strong>{" "}
+              {isAr
+                  ? "مصاريف الشحن تتحدد بدقة حسب محافظتك بعد إرسال الطلب، دفع الديبوزت مطلوب قبل بدء التنفيذ، ومدة التنفيذ والتوصيل من 5 إلى 7 أيام."
+                  : t("pricingSection.shippingNote")}
+            </span>
+          </div>
+        </div>
+      </section>
+
+            {/* 6. Customer Reviews Carousel & Submission Popup */}
+            <ScrollReveal>
+              <ReviewsCarouselSection reviews={cmsData.reviews} />
+            </ScrollReveal>
+
+      {/* 7. Embedded Order Form Section ("اطلب كتابك الآن") */}
+      <section
+        id="order-form-section"
+        className="w-full bg-[#f8f1ff] py-16"
+      >
+          <ScrollReveal className="mx-auto flex max-w-6xl flex-col gap-8 px-6 lg:px-10">
+            <div className="flex flex-col items-center gap-1.5 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#6324c5] text-white shadow-md">
+                <span
+                  className="material-symbols-outlined text-[28px]"
+                  aria-hidden="true"
+                >
+                  assignment
+                </span>
+              </div>
+              <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+                {isAr ? "اطلب كتابك الآن" : "Order Your Book Now"}
+              </h2>
+              <p className="max-w-lg text-[16px] leading-[1.8] text-[#625B75]">
+                {isAr
+                ? "املأ البيانات التالية لنفسك أو لمن تحب وسيتواصل معك فريق رقيم لتأكيد التفاصيل والشحن — مدة التنفيذ والتوصيل من 5 إلى 7 أيام."
+                : "Fill in the details below for yourself or a loved one and the Raqeem team will confirm everything — production & delivery take 5 to 7 days."}
+              </p>
+            </div>
+
+            <OrderRequestForm
+              initialPageCount={12}
+              bookVariants={cmsData.bookVariants}
+              promotions={cmsData.promotions}
+              governorates={cmsData.governorates}
+            />
+      </ScrollReveal>
+    </section>
+
+  {/* 8. Social Media Follow Section (Admin-Managed Links) */ }
+  <ScrollReveal>
+    <SocialFollowSection
+      locale={typedLocale}
+      links={cmsData.socialLinks}
+    />
+  </ScrollReveal>
+    </div >
+  );
+}
