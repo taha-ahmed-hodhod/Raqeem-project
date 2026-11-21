@@ -2,6 +2,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { getPublishedPortfolioItems } from "@/features/portfolio/portfolio-data";
 import { PortfolioFilterGrid } from "@/components/shared/portfolio-filter-grid";
 
+export const dynamic = "force-dynamic";
+
 export default async function PortfolioPage({
   params,
 }: {

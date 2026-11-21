@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useLocale } from "next-intl";
+import { BadgeCheck, ShieldCheck } from "lucide-react";
 import { Link } from "@/lib/i18n/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import {
@@ -13,7 +14,7 @@ export function SiteFooter() {
   const isAr = locale === "ar";
 
   return (
-    <footer className="mt-16 w-full bg-[#f8f1ff] pt-16 pb-24 lg:pb-8">
+    <footer className="w-full border-t border-[#E8E1F2] bg-white pt-16 pb-24 lg:pb-8">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="grid grid-cols-1 gap-6 pb-12 md:grid-cols-2 lg:grid-cols-12">
           {/* Column 1: Brand (5 cols) */}
@@ -33,12 +34,7 @@ export function SiteFooter() {
                 : "We turn your child's real photo and favorite everyday stories into a hand-crafted cartoon coloring adventure—creating warm memories starring your child on every page."}
             </p>
             <div className="flex items-center gap-2 text-[14px] font-medium text-[#16875D]">
-              <span
-                className="material-symbols-outlined text-[18px]"
-                aria-hidden="true"
-              >
-                verified
-              </span>
+              <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span>
                 {isAr
                   ? "ضمان رضا 100% | مراجعة قبل الطباعة النهائية"
@@ -119,12 +115,10 @@ export function SiteFooter() {
               </a>
             </div>
             <div className="flex items-start gap-2 rounded-xl bg-[#F2EEFA] p-3">
-              <span
-                className="material-symbols-outlined mt-0.5 text-[20px] text-[#6324c5]"
+              <ShieldCheck
+                className="mt-0.5 h-5 w-5 shrink-0 text-[#6324c5]"
                 aria-hidden="true"
-              >
-                shield
-              </span>
+              />
               <p className="text-[12px] leading-[1.5] font-medium text-[#625B75]">
                 {isAr
                   ? "الدفع والتأكيد مع فريق العمل، بدون أي دفع إلكتروني إجباري أثناء الطلب. خصوصية صور أطفالكم مشفرة ومحمية بالكامل."

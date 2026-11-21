@@ -4,6 +4,8 @@ import { Link } from "@/lib/i18n/navigation";
 import { getPublicCatalogAndCmsData } from "@/features/content/cms-data";
 import { FaqAccordion } from "@/components/shared/faq-accordion";
 
+export const dynamic = "force-dynamic";
+
 export default async function FaqPage({
   params,
 }: {

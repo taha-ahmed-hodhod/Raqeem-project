@@ -62,18 +62,13 @@ export async function submitCustomerReviewAction(
     auth: { persistSession: false, autoRefreshToken: false },
   });
 
-  // Determine sequential avatar index (0 -> 1 -> 2 -> 0 ...)
-  const { count } = await supabase
-    .from("customer_reviews")
-    .select("id", { count: "exact", head: true });
-  const avatarIndex = ((count ?? 0) % 3) as 0 | 1 | 2;
-
+  // Let Postgres atomic sequence default assign avatar_index sequentially (0 -> 1 -> 2 -> 0 ...)
+  // once at creation time, immune to deletions, edits, or concurrent inserts.
   const { error } = await supabase.from("customer_reviews").insert({
     reviewer_name: parsed.data.reviewerName,
     reviewer_age: parsed.data.reviewerAge,
     rating: parsed.data.rating,
     comment: parsed.data.comment,
-    avatar_index: avatarIndex,
     status: "pending",
     approved_at: null,
   });

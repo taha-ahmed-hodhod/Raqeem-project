@@ -13,6 +13,7 @@ import { AnnouncementBar } from "@/components/shared/announcement-bar";
 import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { ToastProvider } from "@/components/shared/toast-provider";
+import { PublicLiveSync } from "@/components/shared/public-live-sync";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -96,19 +97,13 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       className={`${cairo.variable} ${nunito.variable}`}
     >
-      <head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
-        />
-      </head>
       <body
         suppressHydrationWarning
         className="flex min-h-dvh flex-col bg-[#F8F5FF] text-[#1e182e] antialiased"
       >
         <NextIntlClientProvider messages={messages}>
           <ToastProvider>
+            <PublicLiveSync />
             <div className="fixed inset-x-0 top-0 z-50">
               <AnnouncementBar />
               <SiteHeader />

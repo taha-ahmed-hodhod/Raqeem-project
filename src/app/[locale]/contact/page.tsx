@@ -4,6 +4,8 @@ import { Link } from "@/lib/i18n/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import { getPublicCatalogAndCmsData } from "@/features/content/cms-data";
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage({
   params,
 }: {

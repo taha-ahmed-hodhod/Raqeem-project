@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import NextLink from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Menu, X } from "lucide-react";
+import { Menu, PenTool, User, X } from "lucide-react";
 import { Link, usePathname, useRouter } from "@/lib/i18n/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import {
@@ -14,14 +14,14 @@ import {
 import { cn } from "@/lib/utils";
 import { WhatsAppIcon } from "./whatsapp-icon";
 
-  interface NavItem {
-    key: string;
-    arLabel: string;
-    enLabel: string;
-    href: string;
-    sectionId?: string;
-    routePrefix?: string;
-  }
+interface NavItem {
+  key: string;
+  arLabel: string;
+  enLabel: string;
+  href: string;
+  sectionId?: string;
+  routePrefix?: string;
+}
 
 const NAV_ITEMS: NavItem[] = [
   {
@@ -196,20 +196,20 @@ export function SiteHeader() {
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-6 lg:px-10">
         {/* Right: Logo */}
         <div className="flex items-center gap-4">
-            <Link
-              href="/"
-              onClick={() => setScrollSectionKey("home")}
-              className="group flex items-center gap-2"
-            >
-              <Image
-                src="/images/logo-raqeem.png"
-                alt="شعار رقيم"
-                width={148}
-                height={44}
-                priority
-                className="h-10 w-auto object-contain md:h-12"
-              />
-            </Link>
+          <Link
+            href="/"
+            onClick={() => setScrollSectionKey("home")}
+            className="group flex items-center gap-2"
+          >
+            <Image
+              src="/images/logo-raqeem.png"
+              alt="شعار رقيم"
+              width={148}
+              height={44}
+              priority
+              className="h-10 w-auto object-contain md:h-12"
+            />
+          </Link>
         </div>
 
         {/* Center: Dynamic Active-State Nav Links */}
@@ -276,12 +276,7 @@ export function SiteHeader() {
             href="/order"
             className="hidden min-h-[44px] items-center gap-1.5 rounded-xl bg-[#6324c5] px-4 py-2 text-[14px] font-bold text-white shadow-[0_8px_24px_-4px_rgba(99,36,197,0.18)] transition-all hover:bg-[#541CA9] active:bg-[#43158C] sm:inline-flex"
           >
-            <span
-              className="material-symbols-outlined text-[18px]"
-              aria-hidden="true"
-            >
-              draw
-            </span>
+            <PenTool className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span>{t("orderCta")}</span>
           </Link>
 
@@ -291,12 +286,7 @@ export function SiteHeader() {
             aria-label={isAr ? "بوابة الإدارة" : "Admin Portal"}
             className="flex h-8 w-8 items-center justify-center rounded-full bg-[#4a00a2] text-white"
           >
-            <span
-              className="material-symbols-outlined text-[18px]"
-              aria-hidden="true"
-            >
-              person
-            </span>
+            <User className="h-4 w-4" aria-hidden="true" />
           </NextLink>
 
           {/* Mobile Menu Toggle */}
@@ -355,12 +345,7 @@ export function SiteHeader() {
                 onClick={() => setMobileOpen(false)}
                 className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#6324c5] px-4 py-2.5 text-base font-bold text-white shadow-sm"
               >
-                <span
-                  className="material-symbols-outlined text-[18px]"
-                  aria-hidden="true"
-                >
-                  draw
-                </span>
+                <PenTool className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>{t("orderCta")}</span>
               </Link>
             </div>
