@@ -108,7 +108,7 @@ export default async function LocaleLayout({
               <AnnouncementBar />
               <SiteHeader />
             </div>
-            <main className="min-h-screen w-full flex-1 bg-[#F8F5FF] pt-28">
+            <main className="min-h-screen w-full flex-1 bg-[#F8F5FF] pt-[104px] md:pt-[108px]">
               {children}
             </main>
             <SiteFooter />

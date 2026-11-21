@@ -136,6 +136,26 @@ html[lang="en"] body {
   animation: raqeemModalPanelIn 260ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+@keyframes raqeemMarqueeSingleRtl {
+  from {
+    transform: translate3d(var(--raqeem-ticker-start, 100vw), 0, 0);
+  }
+  to {
+    transform: translate3d(var(--raqeem-ticker-end, -100%), 0, 0);
+  }
+}
+
+.raqeem-marquee-single {
+  display: inline-flex;
+  width: max-content;
+  will-change: transform;
+  animation: raqeemMarqueeSingleRtl 38s linear infinite;
+}
+
+.raqeem-marquee-single:hover {
+  animation-play-state: paused;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

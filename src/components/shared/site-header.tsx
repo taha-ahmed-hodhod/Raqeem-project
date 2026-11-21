@@ -192,8 +192,8 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="bg-white/90 shadow-[0_1px_8px_rgba(99,36,197,0.06)] backdrop-blur-xl">
-      <div className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-3 px-6 lg:px-10">
+    <header className="bg-white/95 shadow-[0_1px_8px_rgba(99,36,197,0.06)] backdrop-blur-xl">
+      <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 md:h-[72px] lg:px-10">
         {/* Right: Logo */}
         <div className="flex items-center gap-4">
           <Link
@@ -248,7 +248,7 @@ export function SiteHeader() {
             type="button"
             onClick={handleLanguageSwitch}
             aria-label={t("switchLanguageAria")}
-            className="min-h-[44px] cursor-pointer rounded-lg px-2.5 py-1 text-[14px] font-medium text-[#625B75] transition-colors hover:text-[#1e182e]"
+            className="inline-flex min-h-[44px] cursor-pointer items-center rounded-lg px-2.5 py-1 text-[14px] font-medium text-[#625B75] transition-colors hover:text-[#1e182e]"
           >
             {isAr ? "EN" : "AR"}
           </button>
@@ -274,7 +274,7 @@ export function SiteHeader() {
 
           <Link
             href="/order"
-            className="hidden min-h-[44px] items-center gap-1.5 rounded-xl bg-[#6324c5] px-4 py-2 text-[14px] font-bold text-white shadow-[0_8px_24px_-4px_rgba(99,36,197,0.18)] transition-all hover:bg-[#541CA9] active:bg-[#43158C] sm:inline-flex"
+            className="hidden min-h-[44px] items-center gap-1.5 rounded-full bg-[#6324c5] px-5 py-2 text-[14px] font-bold whitespace-nowrap text-white shadow-[0_8px_24px_-4px_rgba(99,36,197,0.22)] transition-all hover:bg-[#541CA9] active:bg-[#43158C] sm:inline-flex"
           >
             <PenTool className="h-4 w-4 shrink-0" aria-hidden="true" />
             <span>{t("orderCta")}</span>
@@ -282,9 +282,9 @@ export function SiteHeader() {
 
           <NextLink
             href="/admin/login"
-            title={isAr ? "بوابة الإدارة" : "Admin Portal"}
-            aria-label={isAr ? "بوابة الإدارة" : "Admin Portal"}
-            className="flex h-8 w-8 items-center justify-center rounded-full bg-[#4a00a2] text-white"
+            title={isAr ? "تسجيل الدخول" : "Admin Login"}
+            aria-label={isAr ? "تسجيل الدخول" : "Admin Login"}
+            className="hidden h-9 w-9 items-center justify-center rounded-full bg-[#4a00a2] text-white xl:flex"
           >
             <User className="h-4 w-4" aria-hidden="true" />
           </NextLink>
@@ -296,7 +296,7 @@ export function SiteHeader() {
             aria-expanded={mobileOpen}
             aria-controls="mobile-navigation"
             aria-label={mobileOpen ? t("closeMenu") : t("openMenu")}
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#E8E1F2] bg-white text-[#241747] xl:hidden"
+            className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-xl border border-[#E8E1F2] bg-white text-[#4B149E] xl:hidden"
           >
             {mobileOpen ? (
               <X className="h-5 w-5" aria-hidden="true" />
@@ -339,15 +339,26 @@ export function SiteHeader() {
                 </Link>
               );
             })}
-            <div className="pt-3">
+
+            {/* Mobile/Tablet CTA & Admin Login inside Nav Drawer */}
+            <div className="mt-2 flex flex-col gap-2 border-t border-[#E8E1F2] pt-3">
               <Link
                 href="/order"
                 onClick={() => setMobileOpen(false)}
-                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#6324c5] px-4 py-2.5 text-base font-bold text-white shadow-sm"
+                className="flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#6324c5] px-4 py-2.5 text-base font-bold text-white shadow-sm sm:hidden"
               >
                 <PenTool className="h-4 w-4 shrink-0" aria-hidden="true" />
                 <span>{t("orderCta")}</span>
               </Link>
+
+              <NextLink
+                href="/admin/login"
+                onClick={() => setMobileOpen(false)}
+                className="flex min-h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-[#4a00a2] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-[#3c0085]"
+              >
+                <User className="h-4 w-4 shrink-0" aria-hidden="true" />
+                <span>{isAr ? "تسجيل الدخول" : "Admin Login"}</span>
+              </NextLink>
             </div>
           </div>
         </nav>
