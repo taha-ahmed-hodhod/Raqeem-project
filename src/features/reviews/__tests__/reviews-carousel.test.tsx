@@ -130,8 +130,33 @@ describe("ReviewsCarouselSection & persistent avatars", () => {
     expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
   });
 
-  it("opens the existing review submission modal when clicking CTA", () => {
+  it("opens the portal review modal on document.body, preserves inputs on validation error, and supports close + reopen", () => {
     render(<ReviewsCarouselSection reviews={FOUR_REVIEWS} />);
+
+    // Open modal
+    fireEvent.click(screen.getByRole("button", { name: "قول رأيك في الكتاب" }));
+    const dialog = screen.getByRole("dialog");
+    expect(dialog).toBeInTheDocument();
+    // Portal renders directly under document.body (above Navbar, outside ScrollReveal transform)
+    expect(dialog.parentElement).toBe(document.body);
+
+    // Fill name & age, leave comment empty -> submit should show alert, preserve values & focus comment
+    fireEvent.change(screen.getByLabelText("الاسم *"), {
+      target: { value: "أم سلمى" },
+    });
+    fireEvent.change(screen.getByLabelText("السن *"), {
+      target: { value: "6 سنوات" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: "إرسال الرأي" }));
+
+    expect(screen.getByRole("alert")).toBeInTheDocument();
+    expect(screen.getByLabelText("الاسم *")).toHaveValue("أم سلمى");
+    expect(screen.getByLabelText("السن *")).toHaveValue("6 سنوات");
+    expect(document.activeElement).toBe(screen.getByLabelText("تعليقك عن الكتاب *"));
+
+    // Close and re-open cleanly
+    fireEvent.click(screen.getByRole("button", { name: "إغلاق" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("button", { name: "قول رأيك في الكتاب" }));
     expect(screen.getByRole("dialog")).toBeInTheDocument();

@@ -9,11 +9,13 @@ import { verifyAdminAccess } from "@/lib/security/admin-auth";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { orderSubmissionRateLimiter } from "@/lib/security/rate-limit";
 
+const MAX_REVIEW_COMMENT_LENGTH = 160;
+
 const submitReviewSchema = z.object({
   reviewerName: z.string().trim().min(2).max(80),
   reviewerAge: z.string().trim().min(1).max(40),
   rating: z.number().int().min(1).max(5),
-  comment: z.string().trim().min(5).max(800),
+  comment: z.string().trim().min(5).max(MAX_REVIEW_COMMENT_LENGTH),
 });
 
 export type SubmitReviewInput = z.infer<typeof submitReviewSchema>;
