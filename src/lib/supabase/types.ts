@@ -131,6 +131,8 @@ export interface PortfolioEntryRow {
   story_idea_en?: string | null;
   story_hero_ar?: string | null;
   story_hero_en?: string | null;
+  show_on_home?: boolean;
+  home_sort_order?: number;
 }
 
 export interface CustomerReviewRow {

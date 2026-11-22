@@ -12,9 +12,12 @@ import {
 } from "lucide-react";
 import type { Locale } from "@/lib/i18n/routing";
 import { getPublicCatalogAndCmsData } from "@/features/content/cms-data";
-import { getPublishedPortfolioItems } from "@/features/portfolio/portfolio-data";
+import {
+  getPublishedPortfolioItems,
+  selectHomePortfolioItems,
+} from "@/features/portfolio/portfolio-data";
 import { HeroInteractiveSection } from "@/components/shared/hero-interactive-section";
-import { PortfolioFilterGrid } from "@/components/shared/portfolio-filter-grid";
+import { PortfolioBookshelfSection } from "@/components/shared/portfolio-bookshelf-section";
 import { PackagesGrid } from "@/components/shared/packages-grid";
 import { ReviewsCarouselSection } from "@/components/shared/reviews-carousel-section";
 import { SocialFollowSection } from "@/components/shared/social-follow-section";
@@ -157,10 +160,12 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 3. Transformation Portfolio / Before & After */}
+      {/* 3. Transformation Portfolio / Wooden Bookshelf ("أبطال من عالم رقيم") */}
       <section id="portfolio-section" className="w-full bg-[#F8F5FF] py-16">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10">
-          <PortfolioFilterGrid items={portfolioItems} />
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+          <PortfolioBookshelfSection
+            items={selectHomePortfolioItems(portfolioItems)}
+          />
         </div>
       </section>
 

@@ -41,10 +41,9 @@ const NAV_ITEMS: NavItem[] = [
   {
     key: "portfolio",
     arLabel: "أعمالنا",
-    enLabel: "Portfolio",
-    href: "/#portfolio-section",
-    sectionId: "portfolio-section",
-    routePrefix: "/portfolio",
+    enLabel: "Works",
+    href: "/works",
+    routePrefix: "/works",
   },
   {
     key: "track",

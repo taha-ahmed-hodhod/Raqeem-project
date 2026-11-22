@@ -187,6 +187,141 @@ export async function savePortfolioStoryAction(formData: FormData): Promise<{
 
   revalidatePath("/ar");
   revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
+  revalidatePath("/ar/portfolio");
+  revalidatePath("/en/portfolio");
+  revalidatePath("/admin/portfolio");
+  return { ok: true };
+}
+
+export async function togglePortfolioHomeAction(formData: FormData): Promise<{
+  ok: boolean;
+  error?: string;
+}> {
+  await requireAdminAccess();
+
+  const id = String(formData.get("id") ?? "").trim();
+  const showOnHome = formData.get("showOnHome") === "true";
+  if (!id) return { ok: false, error: "معرف العمل غير صالح." };
+
+  const supabase = await createSupabaseServerClient();
+
+  if (showOnHome) {
+    // Enforce max 4 featured works on Homepage server-side
+    const { data: currentHome, error: countErr } = await supabase
+      .from("portfolio")
+      .select("id, home_sort_order")
+      .eq("show_on_home", true)
+      .neq("id", id);
+
+    if (countErr) {
+      return { ok: false, error: "تعذر التحقق من عدد الكتب المختارة للرئيسية." };
+    }
+
+    if ((currentHome?.length ?? 0) >= 3) {
+      return {
+        ok: false,
+        error:
+          "الحد الأقصى للعرض في الصفحة الرئيسية هو 3 كتب. يرجى إزالة أحد الكتب الثلاثة المختارة أولاً.",
+      };
+    }
+
+    const maxOrder = (currentHome ?? []).reduce(
+      (max, row) => Math.max(max, Number(row.home_sort_order ?? 0)),
+      0,
+    );
+
+    const { error } = await supabase
+      .from("portfolio")
+      .update({ show_on_home: true, home_sort_order: maxOrder + 1 })
+      .eq("id", id);
+
+    if (error) {
+      if (error.message.includes("MAX_HOME_PORTFOLIO_REACHED")) {
+        return {
+          ok: false,
+          error:
+            "الحد الأقصى للعرض في الصفحة الرئيسية هو 4 كتب. يرجى إزالة أحد الكتب الأربعة المختارة أولاً.",
+        };
+      }
+      return { ok: false, error: "تعذر تفعيل العرض في الصفحة الرئيسية." };
+    }
+  } else {
+    const { error } = await supabase
+      .from("portfolio")
+      .update({ show_on_home: false, home_sort_order: 0 })
+      .eq("id", id);
+
+    if (error) {
+      return { ok: false, error: "تعذر إزالة العمل من الصفحة الرئيسية." };
+    }
+  }
+
+  revalidatePath("/ar");
+  revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
+  revalidatePath("/ar/portfolio");
+  revalidatePath("/en/portfolio");
+  revalidatePath("/admin/portfolio");
+  return { ok: true };
+}
+
+export async function updatePortfolioHomeOrderAction(
+  formData: FormData,
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAdminAccess();
+
+  const id = String(formData.get("id") ?? "").trim();
+  const order = Number(formData.get("homeSortOrder") ?? 1);
+  if (!id || !Number.isInteger(order) || order < 1 || order > 99) {
+    return { ok: false, error: "ترتيب غير صالح." };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("portfolio")
+    .update({ home_sort_order: order })
+    .eq("id", id);
+
+  if (error) {
+    return { ok: false, error: "تعذر تحديث الترتيب." };
+  }
+
+  revalidatePath("/ar");
+  revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
+  revalidatePath("/admin/portfolio");
+  return { ok: true };
+}
+
+export async function updatePortfolioCoverImageAction(
+  formData: FormData,
+): Promise<{ ok: boolean; error?: string }> {
+  await requireAdminAccess();
+
+  const id = String(formData.get("id") ?? "").trim();
+  const imageUrl = String(formData.get("imageUrl") ?? "").trim();
+  if (!id || !imageUrl.startsWith("https://")) {
+    return { ok: false, error: "يرجى رفع صورة غلاف صالحة." };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("portfolio")
+    .update({ image_url: imageUrl })
+    .eq("id", id);
+
+  if (error) {
+    return { ok: false, error: "تعذر تحديث صورة الغلاف." };
+  }
+
+  revalidatePath("/ar");
+  revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
   revalidatePath("/ar/portfolio");
   revalidatePath("/en/portfolio");
   revalidatePath("/admin/portfolio");
@@ -212,6 +347,8 @@ export async function togglePortfolioPublishAction(
 
   revalidatePath("/ar");
   revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
   revalidatePath("/ar/portfolio");
   revalidatePath("/en/portfolio");
   revalidatePath("/admin/portfolio");
@@ -233,6 +370,8 @@ export async function deletePortfolioItemAction(
 
   revalidatePath("/ar");
   revalidatePath("/en");
+  revalidatePath("/ar/works");
+  revalidatePath("/en/works");
   revalidatePath("/ar/portfolio");
   revalidatePath("/en/portfolio");
   revalidatePath("/admin/portfolio");

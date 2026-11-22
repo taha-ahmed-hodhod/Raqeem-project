@@ -28,6 +28,30 @@ export interface PortfolioShowcaseItem {
   isDemo: boolean;
   guardianConsentVerified: boolean;
   pageCount: 12 | 24;
+  showOnHome: boolean;
+  homeSortOrder: number;
+}
+
+export const DEFAULT_HOME_PORTFOLIO_COUNT = 3;
+export const MAX_HOME_PORTFOLIO_COUNT = 3;
+
+/**
+ * Selects which published portfolio works appear in the Homepage shelf:
+ * - If the Admin has explicitly chosen items (`showOnHome === true`), sort by
+ *   `homeSortOrder` ASC and return up to 3 items.
+ * - Otherwise (first run / none selected yet), return the first 3 published items
+ *   in their natural gallery order (or fewer if less than 3 exist, never duplicating).
+ */
+export function selectHomePortfolioItems(
+  publishedItems: PortfolioShowcaseItem[],
+): PortfolioShowcaseItem[] {
+  const selected = publishedItems.filter((item) => item.showOnHome);
+  if (selected.length > 0) {
+    return [...selected]
+      .sort((a, b) => a.homeSortOrder - b.homeSortOrder)
+      .slice(0, MAX_HOME_PORTFOLIO_COUNT);
+  }
+  return publishedItems.slice(0, DEFAULT_HOME_PORTFOLIO_COUNT);
 }
 
 export const DEFAULT_PORTFOLIO_ITEMS: PortfolioShowcaseItem[] = [
@@ -65,6 +89,8 @@ export const DEFAULT_PORTFOLIO_ITEMS: PortfolioShowcaseItem[] = [
     isDemo: true,
     guardianConsentVerified: false,
     pageCount: 24,
+    showOnHome: false,
+    homeSortOrder: 0,
   },
   {
     id: "demo-farida-garden",
@@ -100,6 +126,8 @@ export const DEFAULT_PORTFOLIO_ITEMS: PortfolioShowcaseItem[] = [
     isDemo: true,
     guardianConsentVerified: false,
     pageCount: 12,
+    showOnHome: false,
+    homeSortOrder: 0,
   },
 ];
 
@@ -153,6 +181,9 @@ function mapDbRowToShowcase(row: PortfolioEntryRow): PortfolioShowcaseItem {
     isDemo,
     guardianConsentVerified: row.guardian_consent_verified,
     pageCount: 24,
+    showOnHome: Boolean(row.show_on_home),
+    homeSortOrder:
+      typeof row.home_sort_order === "number" ? row.home_sort_order : 0,
   };
 }
 
