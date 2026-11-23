@@ -30,26 +30,36 @@ export function CmsContentEditorForm({
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     startTransition(async () => {
-      const fd = new FormData();
-      fd.set("key", contentKey);
-      fd.set("valueAr", valueAr);
-      fd.set("valueEn", valueEn);
-      const res = await updateSiteContentAction(fd);
+      try {
+        const fd = new FormData();
+        fd.set("key", contentKey);
+        fd.set("valueAr", valueAr);
+        fd.set("valueEn", valueEn);
+        const res = await updateSiteContentAction(fd);
 
-      if (!res.ok) {
+        if (!res.ok) {
+          showToast({
+            variant: "error",
+            title: res.error ?? "تعذر حفظ النص. حاول مرة أخرى.",
+          });
+          if (res.requiresLogin) {
+            router.push("/admin/login");
+          }
+          return;
+        }
+
+        showToast({
+          variant: "success",
+          title: "تم حفظ ونشر النص بنجاح",
+          description: "سيظهر التعديل فورًا على الموقع.",
+        });
+        router.refresh();
+      } catch {
         showToast({
           variant: "error",
-          title: res.error ?? "تعذر حفظ النص. حاول مرة أخرى.",
+          title: "حدث خطأ أثناء الاتصال بالخادم. يرجى المحاولة مرة أخرى.",
         });
-        return;
       }
-
-      showToast({
-        variant: "success",
-        title: "تم حفظ ونشر النص بنجاح",
-        description: "سيظهر التعديل فورًا على الموقع.",
-      });
-      router.refresh();
     });
   }
 
