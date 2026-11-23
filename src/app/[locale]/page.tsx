@@ -43,6 +43,9 @@ export default async function HomePage({
     getPublishedPortfolioItems(),
   ]);
 
+  const titleOverride = isAr
+    ? cmsData.heroOverrides.titleAr
+    : cmsData.heroOverrides.titleEn;
   const subtitleOverride = isAr
     ? cmsData.heroOverrides.subtitleAr
     : cmsData.heroOverrides.subtitleEn;
@@ -103,9 +106,10 @@ export default async function HomePage({
       {/* Promotional Poster Popup (shown once per session when enabled in Admin) */}
       <PromotionalPosterPopup poster={cmsData.posterPopup} />
 
-      {/* 1. Hero Section (Live Admin-editable Hero Image) */}
+      {/* 1. Hero Section (Live Admin-editable Hero Text & Image) */}
       <HeroInteractiveSection
         bookVariants={cmsData.bookVariants}
+        titleOverride={titleOverride}
         subtitleOverride={subtitleOverride}
         heroImageUrl={cmsData.heroOverrides.imageUrl}
       />

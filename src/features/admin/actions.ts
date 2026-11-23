@@ -409,18 +409,22 @@ export async function updateSiteContentAction(
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("site_content").upsert({
-    key,
-    value: valueAr,
-    value_en: valueEn || null,
-    updated_at: new Date().toISOString(),
-  });
+  const { error } = await supabase.from("site_content").upsert(
+    {
+      key,
+      value: valueAr,
+      value_en: valueEn || null,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" },
+  );
 
   if (error) {
     return { ok: false, error: error.message };
   }
 
   revalidatePath("/admin/content");
+  revalidatePath("/", "layout");
   revalidatePath("/ar");
   revalidatePath("/en");
   return { ok: true };

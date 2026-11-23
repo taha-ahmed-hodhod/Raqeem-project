@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 
 interface HeroInteractiveSectionProps {
   bookVariants: BookVariantRow[];
+  titleOverride?: string;
   subtitleOverride?: string;
   heroImageUrl?: string;
 }
@@ -19,6 +20,7 @@ const DEFAULT_HERO_IMAGE = "/images/stitch/hero-main.png";
 
 export function HeroInteractiveSection({
   bookVariants,
+  titleOverride,
   subtitleOverride,
   heroImageUrl,
 }: HeroInteractiveSectionProps) {
@@ -96,9 +98,11 @@ export function HeroInteractiveSection({
         <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
           {/* Column 1 (RTL Right on Desktop, Below image on Mobile): Headline, Subtitle, 12/24 Pills, CTA & Portfolio Link */}
           <div className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-6">
-            {/* Main Heading with Yellow Crayon Underline under "بطل" */}
+            {/* Main Heading with Yellow Crayon Underline under "بطل" (or custom Admin override) */}
             <h1 className="max-w-[16ch] text-[34px] leading-[1.3] font-black tracking-tight text-[#4B127A] sm:max-w-none sm:text-[42px] lg:text-[48px]">
-              {isAr ? (
+              {titleOverride ? (
+                titleOverride
+              ) : isAr ? (
                 <>
                   طفلك{" "}
                   <span className="relative inline-block">
