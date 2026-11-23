@@ -1,24 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import {
-  BadgeCheck,
-  BookOpen,
-  Check,
-  Heart,
-  Images,
-  Palette,
-  PartyPopper,
-  PenTool,
-  Printer,
-  Send,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
+import { useLocale } from "next-intl";
+import { Check } from "lucide-react";
 import { Link } from "@/lib/i18n/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import type { BookVariantRow } from "@/lib/supabase/types";
+import { HeroOpenBookFrame } from "./hero-open-book-frame";
 import { cn } from "@/lib/utils";
 
 interface HeroInteractiveSectionProps {
@@ -27,12 +15,13 @@ interface HeroInteractiveSectionProps {
   heroImageUrl?: string;
 }
 
+const DEFAULT_HERO_IMAGE = "/images/stitch/hero-main.png";
+
 export function HeroInteractiveSection({
   bookVariants,
   subtitleOverride,
   heroImageUrl,
 }: HeroInteractiveSectionProps) {
-  const t = useTranslations("home");
   const locale = useLocale() as Locale;
   const isAr = locale === "ar";
 
@@ -42,334 +31,243 @@ export function HeroInteractiveSection({
   const price24 = variant24?.price_egp ?? 350;
 
   const [selectedPages, setSelectedPages] = useState<12 | 24>(12);
-  const selectedPrice = selectedPages === 24 ? price24 : price12;
+  const resolvedHeroImage =
+    heroImageUrl && heroImageUrl.trim().length > 0
+      ? heroImageUrl.trim()
+      : DEFAULT_HERO_IMAGE;
+
+  const subtitleText =
+    subtitleOverride ||
+    (isAr
+      ? "من صورته واسمه، نصمّم له مغامرة يلوّنها بإيده."
+      : "From their photo and name, we craft an adventure they color by hand.");
 
   return (
-    <>
-      <div className="relative w-full overflow-hidden">
-        {/* Top Decorative Ambient Glow */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-32 right-1/4 h-96 w-96 rounded-full bg-[#c6b1f0] opacity-60 blur-3xl"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-24 -left-20 h-80 w-80 rounded-full bg-[#ffd9e2]/40 opacity-40 blur-3xl"
-        />
+    <div className="relative w-full overflow-hidden bg-gradient-to-b from-[#EDE1FF] via-[#F3EAFF] to-[#F8F5FF]">
+      {/* Subtle paper-texture ambient light */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-70"
+        style={{
+          backgroundImage:
+            "radial-gradient(circle at 22% 35%, rgba(255,255,255,0.6) 0%, transparent 52%), radial-gradient(circle at 80% 70%, rgba(255,255,255,0.45) 0%, transparent 48%)",
+        }}
+      />
 
-        {/* 1. Hero Section */}
-        <section
-          id="hero-section"
-          className="relative mx-auto max-w-7xl px-6 pt-6 pb-16 lg:px-10"
-        >
-          <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-12">
-            {/* Right Column: Hero Content (RTL Leading) */}
-            <div className="z-10 flex flex-col gap-4 text-start lg:col-span-6">
-              {/* Doodle Tagline */}
-              <div className="inline-flex items-center gap-1.5 self-start rounded-full bg-[#FFF9DE] px-3 py-1 text-[14px] leading-[1.6] font-bold text-[#B76B00] shadow-sm">
-                <Sparkles className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{t("badge")}</span>
-              </div>
+      {/* Top-Right Paper-Cut Lavender Cloud (clipped cleanly at section bounds) */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 320 120"
+        className="pointer-events-none absolute top-0 right-0 z-0 h-auto w-[135px] drop-shadow-[0_6px_12px_rgba(116,74,178,0.12)] sm:w-[215px] lg:w-[300px]"
+      >
+        <path
+          d="M 320,0 L 320,96 C 296,104 268,94 256,74 C 236,92 200,90 184,68 C 162,82 128,74 118,50 C 94,58 64,46 58,22 C 42,26 24,18 16,0 Z"
+          fill="#FAF5FF"
+        />
+        <path
+          d="M 320,0 L 320,82 C 298,88 274,80 264,62 C 246,76 216,74 202,56 C 182,68 152,62 142,42 C 122,48 96,38 90,18 C 76,22 60,14 54,0 Z"
+          fill="#F4EBFF"
+          opacity="0.7"
+        />
+      </svg>
 
-              {/* Headline with Yellow Marker Highlight */}
-              <h1 className="text-[30px] leading-[1.35] font-extrabold tracking-tight text-[#241747] lg:text-[44px] lg:leading-[1.3]">
-                {isAr ? (
-                  <>
-                    مش مجرد كتاب تلوين...
-                    <br />
-                    طفلك هيبقى{" "}
-                  </>
-                ) : (
-                  t("headlinePrefix")
+      {/* Top-Left Paper-Cut Lavender Cloud (clipped cleanly at section bounds) */}
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 320 120"
+        className="pointer-events-none absolute top-0 left-0 z-0 h-auto w-[135px] drop-shadow-[0_6px_12px_rgba(116,74,178,0.12)] sm:w-[215px] lg:w-[300px]"
+      >
+        <path
+          d="M 0,0 L 0,96 C 24,104 52,94 64,74 C 84,92 120,90 136,68 C 158,82 192,74 202,50 C 226,58 256,46 262,22 C 278,26 296,18 304,0 Z"
+          fill="#FAF5FF"
+        />
+        <path
+          d="M 0,0 L 0,82 C 22,88 46,80 56,62 C 74,76 104,74 118,56 C 138,68 168,62 178,42 C 198,48 224,38 230,18 C 244,22 260,14 266,0 Z"
+          fill="#F4EBFF"
+          opacity="0.7"
+        />
+      </svg>
+
+      {/* Hero Content Container */}
+      <section
+        id="hero-section"
+        className="relative z-10 mx-auto max-w-7xl px-5 pt-10 pb-14 sm:px-8 sm:pt-12 lg:px-10 lg:py-16"
+      >
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Column 1 (RTL Right on Desktop, Below image on Mobile): Headline, Subtitle, 12/24 Pills, CTA & Portfolio Link */}
+          <div className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-6">
+            {/* Main Heading with Yellow Crayon Underline under "بطل" */}
+            <h1 className="max-w-[16ch] text-[34px] leading-[1.3] font-black tracking-tight text-[#4B127A] sm:max-w-none sm:text-[42px] lg:text-[48px]">
+              {isAr ? (
+                <>
+                  طفلك{" "}
+                  <span className="relative inline-block">
+                    <span>بطل</span>
+                    {/* Hand-drawn golden crayon underline */}
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 120 18"
+                      preserveAspectRatio="none"
+                      className="pointer-events-none absolute -bottom-1.5 left-0 h-3 w-full"
+                    >
+                      <path
+                        d="M 4,12 C 32,6 84,5 116,10"
+                        fill="none"
+                        stroke="#FFC928"
+                        strokeWidth="6.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>{" "}
+                  كتاب التلوين
+                </>
+              ) : (
+                <>
+                  Your Child Is the{" "}
+                  <span className="relative inline-block">
+                    <span>Hero</span>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 120 18"
+                      preserveAspectRatio="none"
+                      className="pointer-events-none absolute -bottom-1.5 left-0 h-3 w-full"
+                    >
+                      <path
+                        d="M 4,12 C 32,6 84,5 116,10"
+                        fill="none"
+                        stroke="#FFC928"
+                        strokeWidth="6.5"
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                  </span>{" "}
+                  of Their Coloring Book
+                </>
+              )}
+            </h1>
+
+            {/* Concise Subtitle */}
+            <p className="mt-4 max-w-md text-[16px] leading-[1.7] font-bold text-[#523970] sm:text-[18px]">
+              {subtitleText}
+            </p>
+
+            {/* Interactive 12 / 24 Pages Package Selector Pills (Live DB Prices) */}
+            <div
+              role="radiogroup"
+              aria-label={isAr ? "اختيار عدد الصفحات" : "Choose page count"}
+              className="mt-7 grid w-full max-w-[440px] grid-cols-2 gap-3"
+            >
+              {/* 12 Pages Pill */}
+              <button
+                type="button"
+                role="radio"
+                aria-checked={selectedPages === 12}
+                onClick={() => setSelectedPages(12)}
+                className={cn(
+                  "flex min-h-[54px] cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2.5 text-center transition-all sm:px-4",
+                  selectedPages === 12
+                    ? "border-[#6324C5] bg-[#EFE3FF] text-[#43158C] shadow-[0_6px_18px_-6px_rgba(99,36,197,0.3)]"
+                    : "border-[#E5D8F2] bg-[#FFFDF8] text-[#4B2C71] hover:border-[#C7A8F2]",
                 )}
-                <span className="relative mr-1 inline-block px-2">
+              >
+                <span
+                  className={cn(
+                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors",
+                    selectedPages === 12
+                      ? "bg-[#6324C5] text-white"
+                      : "border border-[#D5C3EB] bg-white text-transparent",
+                  )}
+                >
+                  <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+                <span className="flex flex-col leading-tight sm:flex-row sm:items-center sm:gap-1.5">
+                  <span className="text-[14px] font-extrabold sm:text-[15px]">
+                    {isAr ? "12 صفحة" : "12 Pages"}
+                  </span>
                   <span
                     aria-hidden="true"
-                    className="absolute inset-0 -z-10 -rotate-1 rounded-md bg-[#FFF9DE] shadow-sm"
-                  />
-                  <span className="relative text-[#6324c5]">
-                    {t("headlineHighlight")}
+                    className="hidden text-[#9A7BC4] sm:inline"
+                  >
+                    •
+                  </span>
+                  <span className="text-[14px] font-black tabular-nums sm:text-[15px]">
+                    {price12} {isAr ? "ج.م" : "EGP"}
                   </span>
                 </span>
-              </h1>
+              </button>
 
-              {/* Subtitle */}
-              <p className="max-w-xl text-[17px] leading-[1.7] font-medium text-[#625B75] lg:text-[18px]">
-                {subtitleOverride ||
-                  (isAr
-                    ? "حوّل صورة طفلك الحقيقية لكتاب تلوين مخصوص باسمه وملامحه، مليان مغامرات ورسومات يدوية ممتعة، مطبوع بأعلى جودة ورق وبيوصلك لحد باب البيت."
-                    : t("subtitle"))}
-              </p>
-
-              {/* Trust Chips Row */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 text-[14px] font-medium text-[#241747] shadow-sm">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F3EAFF] text-[#6324c5]">
-                    <PenTool className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <span>
-                    {isAr ? "تصميم مخصص 100%" : t("trustChips.customDesign")}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 text-[14px] font-medium text-[#241747] shadow-sm">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#FFF0F6] text-[#b02360]">
-                    <Printer className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <span>
-                    {isAr
-                      ? "طباعة فاخرة سميكة"
-                      : t("trustChips.highQualityPrint")}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-1.5 rounded-xl bg-white px-3 py-1.5 text-[14px] font-medium text-[#241747] shadow-sm">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#F2EEFA] text-[#16875D]">
-                    <ShieldCheck className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                  <span>
-                    {isAr
-                      ? "أمان تام لصور أطفالنا"
-                      : t("trustChips.egyptDelivery")}
-                  </span>
-                </div>
-              </div>
-
-              {/* Quick Selection Card */}
-              <div className="mt-2 flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-[0_8px_24px_-4px_rgba(99,36,197,0.08)]">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-[18px] font-bold text-[#241747]">
-                    <BookOpen
-                      className="h-5 w-5 shrink-0 text-[#6324c5]"
-                      aria-hidden="true"
-                    />
-                    <span>{t("packageSelector.title")}</span>
-                  </div>
-                  <span className="text-[12px] font-medium text-[#625B75]">
-                    {t("packageSelector.noPrepaymentNote")}
-                  </span>
-                </div>
-
-                {/* Radio Options */}
-                <div
-                  role="radiogroup"
-                  aria-label={t("packageSelector.title")}
-                  id="hero-package-selector"
-                  className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+              {/* 24 Pages Pill */}
+              <button
+                type="button"
+                role="radio"
+                aria-checked={selectedPages === 24}
+                onClick={() => setSelectedPages(24)}
+                className={cn(
+                  "flex min-h-[54px] cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 px-3 py-2.5 text-center transition-all sm:px-4",
+                  selectedPages === 24
+                    ? "border-[#6324C5] bg-[#EFE3FF] text-[#43158C] shadow-[0_6px_18px_-6px_rgba(99,36,197,0.3)]"
+                    : "border-[#E5D8F2] bg-[#FFFDF8] text-[#4B2C71] hover:border-[#C7A8F2]",
+                )}
+              >
+                <span
+                  className={cn(
+                    "flex h-5 w-5 shrink-0 items-center justify-center rounded-full transition-colors",
+                    selectedPages === 24
+                      ? "bg-[#6324C5] text-white"
+                      : "border border-[#D5C3EB] bg-white text-transparent",
+                  )}
                 >
-                  {/* 12 Pages */}
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={selectedPages === 12}
-                    onClick={() => setSelectedPages(12)}
-                    className={cn(
-                      "relative flex cursor-pointer items-center justify-between rounded-xl p-3 text-start transition-all",
-                      selectedPages === 12
-                        ? "bg-[#F3EAFF] shadow-sm"
-                        : "bg-[#F2EEFA] hover:bg-[#F3EAFF]/60",
-                    )}
-                  >
-                    <div className="flex flex-col">
-                      <span className="text-[21px] leading-[1.4] font-bold text-[#241747]">
-                        {t("packageSelector.pages12Title")}
-                      </span>
-                      <span className="text-[12px] font-medium text-[#625B75]">
-                        {isAr
-                          ? "مناسب للأعمار من 3 إلى 6 سنوات"
-                          : t("packageSelector.pages12Desc")}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <div className="flex items-baseline gap-1">
-                        <span
-                          className={cn(
-                            "text-[26px] leading-[1.4] font-extrabold",
-                            selectedPages === 12
-                              ? "text-[#6324c5]"
-                              : "text-[#241747]",
-                          )}
-                        >
-                          {price12}
-                        </span>
-                        <span className="text-[12px] font-bold text-[#625B75]">
-                          {t("packageSelector.currency")}
-                        </span>
-                      </div>
-                      <span
-                        className={cn(
-                          "mt-1 flex h-5 w-5 items-center justify-center rounded-full",
-                          selectedPages === 12
-                            ? "bg-[#6324c5] text-white"
-                            : "bg-[#E8E1F2] text-transparent",
-                        )}
-                      >
-                        <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                      </span>
-                    </div>
-                  </button>
-
-                  {/* 24 Pages */}
-                  <button
-                    type="button"
-                    role="radio"
-                    aria-checked={selectedPages === 24}
-                    onClick={() => setSelectedPages(24)}
-                    className={cn(
-                      "relative flex cursor-pointer items-center justify-between rounded-xl p-3 text-start transition-all",
-                      selectedPages === 24
-                        ? "bg-[#F3EAFF] shadow-sm"
-                        : "bg-[#F2EEFA] hover:bg-[#F3EAFF]/60",
-                    )}
-                  >
-                    <span className="absolute -top-2.5 right-4 rounded-full bg-[#b02360] px-2 py-0.5 text-[11px] font-bold text-white shadow-sm">
-                      {isAr ? "الأكثر طلباً ⭐" : "Most Popular ⭐"}
-                    </span>
-                    <div className="flex flex-col">
-                      <span className="text-[21px] leading-[1.4] font-bold text-[#241747]">
-                        {t("packageSelector.pages24Title")}
-                      </span>
-                      <span className="text-[12px] font-medium text-[#625B75]">
-                        {t("packageSelector.pages24Desc")}
-                      </span>
-                    </div>
-                    <div className="flex flex-col items-end">
-                      <div className="flex items-baseline gap-1">
-                        <span
-                          className={cn(
-                            "text-[26px] leading-[1.4] font-extrabold",
-                            selectedPages === 24
-                              ? "text-[#6324c5]"
-                              : "text-[#241747]",
-                          )}
-                        >
-                          {price24}
-                        </span>
-                        <span className="text-[12px] font-bold text-[#625B75]">
-                          {t("packageSelector.currency")}
-                        </span>
-                      </div>
-                      <span
-                        className={cn(
-                          "mt-1 flex h-5 w-5 items-center justify-center rounded-full",
-                          selectedPages === 24
-                            ? "bg-[#6324c5] text-white"
-                            : "bg-[#E8E1F2] text-transparent",
-                        )}
-                      >
-                        <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                      </span>
-                    </div>
-                  </button>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-col items-center gap-2 pt-1 sm:flex-row">
-                  <Link
-                    href={`/order?pages=${selectedPages}`}
-                    className="flex w-full transform items-center justify-center gap-2 rounded-xl bg-[#6324c5] px-6 py-3.5 text-[16px] font-bold text-white shadow-[0_8px_24px_-4px_rgba(99,36,197,0.25)] transition-all hover:bg-[#541CA9] active:translate-y-0.5 active:bg-[#43158C] sm:flex-1"
-                  >
-                    <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span>{t("primaryCta")}</span>
-                  </Link>
-                  <a
-                    href="#portfolio-section"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#F2EEFA] px-4 py-3.5 text-[14px] font-bold text-[#241747] transition-colors hover:bg-white sm:w-auto"
-                  >
-                    <Images className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span>{isAr ? "شاهد النماذج" : t("secondaryCta")}</span>
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            {/* Left Column: Visual Showcase */}
-            <div className="relative flex flex-col items-center lg:col-span-6">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute -top-6 -right-6 z-10 flex h-16 w-16 -rotate-12 items-center justify-center rounded-full bg-[#FFF9DE] shadow-sm"
-              >
-                <Palette className="h-8 w-8 text-[#B76B00]" />
-              </div>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-16 -left-4 z-10 flex h-16 w-16 rotate-12 items-center justify-center rounded-full bg-[#FFF0F6] shadow-sm"
-              >
-                <Heart className="h-6 w-6 text-[#b02360]" />
-              </div>
-
-              <div className="relative w-full max-w-md transform rounded-3xl bg-white p-3 shadow-[0_20px_40px_-8px_rgba(99,36,197,0.14),0_4px_12px_-2px_rgba(36,23,71,0.06)] transition-transform duration-300 hover:rotate-0 lg:rotate-1">
-                <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl bg-[#ede4ff] shadow-inner">
-                  <div className="pointer-events-none relative z-10 flex items-center justify-between p-3">
-                    <div className="flex items-center gap-1.5 rounded-xl bg-white/90 px-3 py-1 shadow-md backdrop-blur-md">
-                      <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-[#16875D]" />
-                      <span className="text-[12px] font-bold text-[#241747]">
-                        {t("showcase.liveTag")}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 rounded-lg bg-[#FFF9DE] px-2.5 py-1 text-[12px] font-bold text-[#B76B00] shadow-sm">
-                      <PartyPopper className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                      <span>
-                        {isAr
-                          ? "إصدار تذكاري خاص"
-                          : t("showcase.specialEdition")}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="relative flex w-full items-center justify-center px-2 pb-2">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={heroImageUrl || "/images/stitch/hero-main.png"}
-                      alt="طفل سعيد يلون كتابه المخصص من رقيم"
-                      className="aspect-[1/1] max-h-[480px] w-full rounded-xl object-cover transition-transform duration-300 hover:scale-[1.02]"
-                    />
-                  </div>
-                </div>
-
-                <div className="mt-3 flex items-center justify-between px-1 text-[12px] text-[#625B75]">
-                  <div className="flex items-center gap-1.5 font-bold text-[#6324c5]">
-                    <BadgeCheck className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    <span>{t("showcase.handDrawnCaption")}</span>
-                  </div>
-                  <span className="rounded-md bg-[#F3EAFF] px-2 py-0.5 font-bold text-[#6324c5]">
-                    {t("showcase.paperSpec")}
+                  <Check className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+                <span className="flex flex-col leading-tight sm:flex-row sm:items-center sm:gap-1.5">
+                  <span className="text-[14px] font-extrabold sm:text-[15px]">
+                    {isAr ? "24 صفحة" : "24 Pages"}
                   </span>
-                </div>
-              </div>
+                  <span
+                    aria-hidden="true"
+                    className="hidden text-[#9A7BC4] sm:inline"
+                  >
+                    •
+                  </span>
+                  <span className="text-[14px] font-black tabular-nums sm:text-[15px]">
+                    {price24} {isAr ? "ج.م" : "EGP"}
+                  </span>
+                </span>
+              </button>
+            </div>
+
+            {/* Primary CTA Button (routes to /order with selected package pre-filled) */}
+            <div className="mt-5 flex w-full max-w-[380px] flex-col items-center gap-3">
+              <Link
+                href={`/order?pages=${selectedPages}`}
+                className="inline-flex min-h-[52px] w-full items-center justify-center rounded-full bg-gradient-to-b from-[#6C1EA6] to-[#4E117C] px-8 py-3 text-[17px] font-extrabold text-white shadow-[0_12px_28px_-6px_rgba(88,24,136,0.48)] transition-all hover:-translate-y-0.5 hover:from-[#7722B5] hover:to-[#5A158E] active:translate-y-0"
+              >
+                {isAr ? "اطلب كتابك الآن" : "Order Your Book Now"}
+              </Link>
+
+              {/* Secondary Underlined Link -> Full Works Gallery */}
+              <Link
+                href="/works"
+                className="inline-flex min-h-[40px] items-center justify-center border-b-2 border-[#6324C5]/60 pb-0.5 text-[15px] font-extrabold text-[#5B1FA8] transition-colors hover:border-[#43158C] hover:text-[#43158C]"
+              >
+                {isAr ? "شاهد أبطالنا" : "View our Heros"}
+              </Link>
             </div>
           </div>
-        </section>
-      </div>
 
-      {/* Mobile Sticky Request CTA Bar */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[#E8E1F2] bg-white/95 px-4 py-3 shadow-[0_-8px_24px_rgba(36,23,71,0.08)] backdrop-blur-md lg:hidden">
-        <div className="mx-auto flex max-w-md items-center justify-between gap-3">
-          <div className="flex flex-col">
-            <span className="text-[11px] font-semibold text-[#625B75]">
-              {selectedPages === 24
-                ? t("packageSelector.pages24Title")
-                : t("packageSelector.pages12Title")}
-            </span>
-            <div className="flex items-baseline gap-1">
-              <span className="text-xl font-extrabold text-[#6324c5]">
-                {selectedPrice}
-              </span>
-              <span className="text-xs font-bold text-[#6324c5]">
-                {isAr ? "ج.م" : "EGP"}
-              </span>
-            </div>
+          {/* Column 2 (RTL Left on Desktop, First on Mobile): Open-Book Framed Live Hero Image */}
+          <div className="order-1 flex items-center justify-center lg:order-2 lg:col-span-6">
+            <HeroOpenBookFrame
+              imageUrl={resolvedHeroImage}
+              alt={
+                isAr
+                  ? "طفل يستمتع بكتاب التلوين المخصص من رقيم"
+                  : "Child enjoying their personalized Raqeem coloring book"
+              }
+            />
           </div>
-
-          <Link
-            href={`/order?pages=${selectedPages}`}
-            className="flex min-h-[46px] flex-1 items-center justify-center gap-2 rounded-xl bg-[#6324c5] px-5 py-2.5 text-sm font-bold text-white shadow-sm active:bg-[#43158C]"
-          >
-            <span>{t("primaryCta")}</span>
-            <Send className="h-4 w-4 shrink-0" aria-hidden="true" />
-          </Link>
         </div>
-      </div>
-    </>
+      </section>
+    </div>
   );
 }
