@@ -1,4 +1,12 @@
-import { Check, Gift } from "lucide-react";
+import {
+  Check,
+  Gift,
+  MapPin,
+  Sparkles,
+  Star,
+  Truck,
+  Wallet,
+} from "lucide-react";
 import { Link } from "@/lib/i18n/navigation";
 import type { Locale } from "@/lib/i18n/routing";
 import type { BookVariantRow, PromotionRow } from "@/lib/supabase/types";
@@ -33,45 +41,55 @@ export function PackagesGrid({
 
   const corporateWhatsappUrl = getRaqeemWhatsAppUrl(
     isAr
-      ? "أهلاً فريق مبيعات رقيم، أرغب في الاستفسار عن باقة المؤسسات (بحد أدنى 10 كتب)."
-      : "Hello Raqeem Sales Team, I would like to inquire about the Corporate Package (min 10 books).",
+      ? "أهلاً فريق مبيعات رقيم، أرغب في الاستفسار عن باقة المؤسسات (تبدأ من 10 كتب)."
+      : "Hello Raqeem Sales Team, I would like to inquire about the Corporate Package (starting from 10 books).",
   );
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 items-stretch gap-6 lg:grid-cols-3">
-        {/* Package 1: 12 Pages */}
-        <article className="flex flex-col rounded-[28px] border border-[#E8E1F2] bg-white p-7 shadow-[0_8px_24px_-6px_rgba(36,23,71,0.06)] transition-transform duration-300 hover:-translate-y-1">
-          <div className="flex flex-1 flex-col gap-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="rounded-full bg-[#F3EAFF] px-3 py-1 text-xs font-extrabold text-[#6324c5]">
-                {isAr ? "بداية مثالية" : "Great Starter"}
+    <div className="flex flex-col gap-8">
+      {/* 3 Storybook-Series Package Cards: RTL Right-to-Left (12 pages -> 24 pages -> Corporate) */}
+      <div className="grid grid-cols-1 items-stretch gap-7 lg:grid-cols-3 lg:gap-6">
+        {/* ================= Card 1: 12-Page Package ================= */}
+        <article className="group relative flex flex-col overflow-hidden rounded-[28px] border-2 border-[#E2D4F4] bg-[#FFFDF7] shadow-[0_5px_0_#F2DFC5,0_9px_0_#E6CCA9,0_16px_34px_-10px_rgba(99,36,197,0.14)] transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none">
+          {/* Top Illustrated Artwork */}
+          <div className="relative h-[185px] w-full shrink-0 overflow-hidden bg-[#F3EAFF] sm:h-[205px] lg:h-[195px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/package-12-pages.png"
+              alt={
+                isAr
+                  ? "طفل يتصفح كتاب التلوين المخصص 12 صفحة"
+                  : "Child enjoying personalized 12-page coloring book"
+              }
+              loading="lazy"
+              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
+            />
+          </div>
+
+          {/* Creamy Paper Details Sheet */}
+          <div className="relative -mt-4 flex flex-1 flex-col items-center rounded-t-[24px] bg-[#FFFDF7] px-6 pt-5 pb-6 text-center">
+            <h3 className="text-[24px] leading-snug font-extrabold text-[#43158C]">
+              {isAr ? "باقة 12 صفحة" : "12-Page Book"}
+            </h3>
+
+            {/* Price Pill */}
+            <div className="mt-2.5 flex min-h-[46px] items-center justify-center rounded-full bg-[#F3EAFF] px-6 py-1.5">
+              <span className="text-[28px] leading-none font-black text-[#6324C5] tabular-nums">
+                {price12}
               </span>
-              <span className="text-xs font-bold text-[#625B75]">
-                {isAr ? "12 صفحة تلوين" : "12 Coloring Pages"}
+              <span className="ms-1.5 text-sm font-extrabold text-[#43158C]">
+                {isAr ? "ج.م" : "EGP"}
               </span>
             </div>
 
-            <div>
-              <h3 className="text-2xl font-extrabold text-[#241747]">
-                {isAr ? "باقة 12 صفحة" : "12-Page Book"}
-              </h3>
-              <div className="mt-2 flex min-h-[44px] items-baseline gap-1.5">
-                <span className="text-4xl font-black text-[#6324c5]">
-                  {price12}
-                </span>
-                <span className="text-sm font-bold text-[#625B75]">
-                  {isAr ? "ج.م / للكتاب" : "EGP / book"}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 rounded-xl bg-[#FFF9DE] px-3.5 py-2.5 text-xs font-extrabold text-[#B76B00]">
-              <Gift className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {/* Gold Gift Ribbon */}
+            <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#FFF5CC] px-4 py-2 text-[13px] font-extrabold text-[#8A5200]">
+              <Gift className="h-4 w-4 shrink-0 text-[#C47B00]" aria-hidden="true" />
               <span>{isAr ? RAQEEM_GIFT_AR : RAQEEM_GIFT_EN}</span>
             </div>
 
-            <ul className="flex flex-col gap-2.5 text-sm text-[#4a4454]">
+            {/* Package Highlights */}
+            <ul className="mt-4 flex w-full flex-1 flex-col gap-2.5 text-start text-[14px] font-bold text-[#241747]">
               <li className="flex items-start gap-2">
                 <Check
                   className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
@@ -79,8 +97,8 @@ export function PackagesGrid({
                 />
                 <span>
                   {isAr
-                    ? "غلاف ملون مخصص باسم وصورة صاحب الكتاب"
-                    : "Custom full-color cover with name & character"}
+                    ? "غلاف باسم وصورة صاحب الكتاب"
+                    : "Custom cover with hero's name & portrait"}
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -90,66 +108,79 @@ export function PackagesGrid({
                 />
                 <span>
                   {isAr
-                    ? "12 مشهد تلوين مرسوم على ورق سميك 150 جرام"
-                    : "12 custom coloring scenes on thick 150gsm paper"}
+                    ? "12 مشهد تلوين على ورق 150 جرام"
+                    : "12 coloring scenes on thick 150gsm paper"}
                 </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
-                  aria-hidden="true"
-                />
-                <span>{isAr ? RAQEEM_SLA_AR : RAQEEM_SLA_EN}</span>
               </li>
             </ul>
-          </div>
 
-          <div className="mt-auto pt-6">
+            {/* CTA */}
             <Link
               href="/order?pages=12"
-              className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-[#F3EAFF] px-5 py-3 text-sm font-extrabold text-[#6324c5] transition-colors hover:bg-[#6324c5] hover:text-white"
+              className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-[#E9DCFF] px-5 py-3 text-[15px] font-extrabold text-[#43158C] shadow-xs transition-colors hover:bg-[#DEC8FF]"
             >
-              {isAr ? "اطلب باقة 12 صفحة" : "Order 12-Page Book"}
+              {isAr ? "اطلب باقة 12 صفحة" : "Order 12-Page Package"}
             </Link>
           </div>
         </article>
 
-        {/* Package 2: 24 Pages (Most Popular — Only Highlighted Card) */}
-        <article className="relative flex flex-col rounded-[28px] border-2 border-[#6324c5] bg-white p-7 shadow-[0_18px_40px_-10px_rgba(99,36,197,0.18)] transition-transform duration-300 hover:-translate-y-1">
-          <span className="absolute -top-3.5 start-6 rounded-full bg-[#b02360] px-3.5 py-1 text-xs font-extrabold text-white shadow-sm">
-            {isAr ? "الأكثر طلباً ⭐" : "Most Popular ⭐"}
-          </span>
+        {/* ================= Card 2: 24-Page Package (Most Popular) ================= */}
+        <article className="group relative flex flex-col overflow-hidden rounded-[28px] border-2 border-[#6324C5] bg-[#FFFDF7] shadow-[0_5px_0_#F2DFC5,0_9px_0_#E6CCA9,0_20px_42px_-10px_rgba(99,36,197,0.26)] ring-2 ring-[#6324C5]/15 transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none">
+          {/* Golden Bookmark Ribbon ("الأكثر طلبًا") */}
+          <div
+            className="pointer-events-none absolute top-0 end-5 z-20 flex flex-col items-center bg-gradient-to-b from-[#FFE270] via-[#FFC928] to-[#F4B400] px-3 pt-2 pb-4 text-[#3B126E] shadow-md"
+            style={{
+              clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%)",
+            }}
+          >
+            <Star
+              className="mb-0.5 h-3.5 w-3.5 fill-[#3B126E] text-[#3B126E]"
+              aria-hidden="true"
+            />
+            <span className="text-[11px] leading-tight font-extrabold whitespace-nowrap">
+              {isAr ? "الأكثر طلبًا" : "Most Popular"}
+            </span>
+          </div>
 
-          <div className="flex flex-1 flex-col gap-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="rounded-full bg-[#6324c5]/10 px-3 py-1 text-xs font-extrabold text-[#6324c5]">
-                {isAr ? "قيمة مضاعفة" : "Double Adventure"}
+          {/* Top Illustrated Artwork */}
+          <div className="relative h-[185px] w-full shrink-0 overflow-hidden bg-[#2D1458] sm:h-[205px] lg:h-[195px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/package-24-pages.png"
+              alt={
+                isAr
+                  ? "طفل رائد فضاء يلوّن كتاب 24 صفحة على سطح القمر"
+                  : "Astronaut child coloring 24-page book on the moon"
+              }
+              loading="lazy"
+              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
+            />
+          </div>
+
+          {/* Creamy Paper Details Sheet */}
+          <div className="relative -mt-4 flex flex-1 flex-col items-center rounded-t-[24px] bg-[#FFFDF7] px-6 pt-5 pb-6 text-center">
+            <h3 className="text-[24px] leading-snug font-extrabold text-[#43158C]">
+              {isAr ? "باقة 24 صفحة" : "24-Page Book"}
+            </h3>
+
+            {/* Price Pill */}
+            <div className="mt-2.5 flex min-h-[46px] items-center justify-center rounded-full bg-[#F3EAFF] px-6 py-1.5">
+              <span className="text-[28px] leading-none font-black text-[#6324C5] tabular-nums">
+                {price24}
               </span>
-              <span className="text-xs font-bold text-[#625B75]">
-                {isAr ? "24 صفحة تلوين" : "24 Coloring Pages"}
+              <span className="ms-1.5 text-sm font-extrabold text-[#43158C]">
+                {isAr ? "ج.م" : "EGP"}
               </span>
             </div>
 
-            <div>
-              <h3 className="text-2xl font-extrabold text-[#241747]">
-                {isAr ? "باقة 24 صفحة" : "24-Page Book"}
-              </h3>
-              <div className="mt-2 flex min-h-[44px] items-baseline gap-1.5">
-                <span className="text-4xl font-black text-[#6324c5]">
-                  {price24}
-                </span>
-                <span className="text-sm font-bold text-[#625B75]">
-                  {isAr ? "ج.م / للكتاب" : "EGP / book"}
-                </span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2 rounded-xl bg-[#FFF9DE] px-3.5 py-2.5 text-xs font-extrabold text-[#B76B00]">
-              <Gift className="h-4 w-4 shrink-0" aria-hidden="true" />
+            {/* Gold Gift Ribbon */}
+            <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#FFF5CC] px-4 py-2 text-[13px] font-extrabold text-[#8A5200]">
+              <Gift className="h-4 w-4 shrink-0 text-[#C47B00]" aria-hidden="true" />
               <span>{isAr ? RAQEEM_GIFT_AR : RAQEEM_GIFT_EN}</span>
             </div>
 
-            <ul className="flex flex-col gap-2.5 text-sm text-[#4a4454]">
+            {/* Package Highlights */}
+            <ul className="mt-4 flex w-full flex-1 flex-col gap-2.5 text-start text-[14px] font-bold text-[#241747]">
               <li className="flex items-start gap-2">
                 <Check
                   className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
@@ -157,8 +188,8 @@ export function PackagesGrid({
                 />
                 <span>
                   {isAr
-                    ? "ضعف عدد الصفحات (24 مشهد قصة مترابطة)"
-                    : "Double the scenes (24 rich story coloring pages)"}
+                    ? "24 مشهد تلوين في قصة مترابطة"
+                    : "24 coloring scenes in one connected story"}
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -168,65 +199,60 @@ export function PackagesGrid({
                 />
                 <span>
                   {isAr
-                    ? "ورق رسم فاخر 150 جرام وتجليد سلك متين"
-                    : "Thick 150gsm art paper & durable spiral binding"}
+                    ? "ورق 150 جرام وتجليد سلك متين"
+                    : "150gsm thick paper & durable spiral binding"}
                 </span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
-                  aria-hidden="true"
-                />
-                <span>{isAr ? RAQEEM_SLA_AR : RAQEEM_SLA_EN}</span>
               </li>
             </ul>
-          </div>
 
-          <div className="mt-auto pt-6">
+            {/* Primary Filled CTA */}
             <Link
               href="/order?pages=24"
-              className="inline-flex min-h-[48px] w-full items-center justify-center rounded-xl bg-[#6324c5] px-5 py-3 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-[#541CA9]"
+              className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center rounded-full bg-[#6324C5] px-5 py-3 text-[15px] font-extrabold text-white shadow-[0_10px_24px_-6px_rgba(99,36,197,0.48)] transition-colors hover:bg-[#541CA9]"
             >
-              {isAr ? "اطلب باقة 24 صفحة" : "Order 24-Page Book"}
+              {isAr ? "اطلب باقة 24 صفحة" : "Order 24-Page Package"}
             </Link>
           </div>
         </article>
 
-        {/* Package 3: Corporate / Institutional Package (Matching 12-Page Light Card Style) */}
-        <article className="flex flex-col rounded-[28px] border border-[#E8E1F2] bg-white p-7 shadow-[0_8px_24px_-6px_rgba(36,23,71,0.06)] transition-transform duration-300 hover:-translate-y-1">
-          <div className="flex flex-1 flex-col gap-4">
-            <div className="flex items-center justify-between gap-2">
-              <span className="rounded-full bg-[#F3EAFF] px-3 py-1 text-xs font-extrabold text-[#6324c5]">
-                {isAr ? "للمؤسسات" : "Organizations"}
-              </span>
-              <span className="text-xs font-bold text-[#625B75]">
-                {isAr ? "مدارس وحضانات وشركات" : "Schools, Nurseries & Companies"}
-              </span>
-            </div>
+        {/* ================= Card 3: Corporate Package (باقة المؤسسات) ================= */}
+        <article className="group relative flex flex-col overflow-hidden rounded-[28px] border-2 border-[#E2D4F4] bg-[#FFFDF7] shadow-[0_5px_0_#F2DFC5,0_9px_0_#E6CCA9,0_16px_34px_-10px_rgba(99,36,197,0.14)] transition-transform duration-300 hover:-translate-y-1 motion-reduce:transition-none">
+          {/* Top Illustrated Artwork */}
+          <div className="relative h-[185px] w-full shrink-0 overflow-hidden bg-[#F3EAFF] sm:h-[205px] lg:h-[195px]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/package-corporate.png"
+              alt={
+                isAr
+                  ? "مجموعة أطفال يلوّنون كتبهم المخصصة معًا"
+                  : "Group of children coloring their custom books together"
+              }
+              loading="lazy"
+              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"
+            />
+          </div>
 
-            <div>
-              <h3 className="text-2xl font-extrabold text-[#241747]">
-                {isAr ? "باقة المؤسسات" : "Corporate Package"}
-              </h3>
-              <div className="mt-2 flex min-h-[44px] items-baseline gap-1.5">
-                <span className="text-sm font-bold text-[#625B75]">
-                  {isAr ? "تبدأ من" : "Starts from"}
-                </span>
-                <span className="text-4xl font-black text-[#6324c5]">10</span>
-                <span className="text-sm font-bold text-[#625B75]">
-                  {isAr ? "كتب" : "books"}
-                </span>
-              </div>
-            </div>
+          {/* Creamy Paper Details Sheet */}
+          <div className="relative -mt-4 flex flex-1 flex-col items-center rounded-t-[24px] bg-[#FFFDF7] px-6 pt-5 pb-6 text-center">
+            <h3 className="text-[24px] leading-snug font-extrabold text-[#43158C]">
+              {isAr ? "باقة المؤسسات" : "Corporate Package"}
+            </h3>
 
-            <div className="flex items-center gap-2 rounded-xl bg-[#FFF9DE] px-3.5 py-2.5 text-xs font-extrabold text-[#B76B00]">
-              <Gift className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>
-                {isAr ? "خصم خاص للكميات" : "Special Volume Discount"}
+            {/* Starting Quantity Pill (same height as price pills) */}
+            <div className="mt-2.5 flex min-h-[46px] items-center justify-center rounded-full bg-[#F3EAFF] px-6 py-1.5">
+              <span className="text-[20px] leading-none font-black text-[#6324C5]">
+                {isAr ? "تبدأ من 10 كتب" : "Starts from 10 books"}
               </span>
             </div>
 
-            <ul className="flex flex-col gap-2.5 text-sm text-[#4a4454]">
+            {/* Gold Special Bulk Discount Ribbon */}
+            <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#FFF5CC] px-4 py-2 text-[13px] font-extrabold text-[#8A5200]">
+              <Gift className="h-4 w-4 shrink-0 text-[#C47B00]" aria-hidden="true" />
+              <span>{isAr ? "خصم خاص للكميات" : "Special bulk discount"}</span>
+            </div>
+
+            {/* Corporate Highlights */}
+            <ul className="mt-4 flex w-full flex-1 flex-col gap-2.5 text-start text-[14px] font-bold text-[#241747]">
               <li className="flex items-start gap-2">
                 <Check
                   className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
@@ -234,8 +260,8 @@ export function PackagesGrid({
                 />
                 <span>
                   {isAr
-                    ? "كتاب مخصّص لكل مشارك باسمه وشخصيته"
-                    : "Custom book for each participant with their name & character"}
+                    ? "كتاب مخصّص لكل مشارك"
+                    : "A personalized book for each participant"}
                 </span>
               </li>
               <li className="flex items-start gap-2">
@@ -249,28 +275,16 @@ export function PackagesGrid({
                     : "Direct coordination with our sales team"}
                 </span>
               </li>
-              <li className="flex items-start gap-2">
-                <Check
-                  className="mt-0.5 h-4 w-4 shrink-0 text-[#16875D]"
-                  aria-hidden="true"
-                />
-                <span>
-                  {isAr
-                    ? "التنفيذ والتوصيل من 5 إلى 7 أيام"
-                    : RAQEEM_SLA_EN}
-                </span>
-              </li>
             </ul>
-          </div>
 
-          <div className="mt-auto pt-6">
+            {/* Sales WhatsApp CTA */}
             <a
               href={corporateWhatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-xl bg-[#F3EAFF] px-5 py-3 text-sm font-extrabold text-[#6324c5] transition-colors hover:bg-[#6324c5] hover:text-white"
+              className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-[#E9DCFF] px-5 py-3 text-[15px] font-extrabold text-[#43158C] shadow-xs transition-colors hover:bg-[#DEC8FF]"
             >
-              <WhatsAppIcon className="h-5 w-5 shrink-0" />
+              <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#16875D]" />
               <span>
                 {isAr ? "تواصل مع فريق المبيعات" : "Contact Sales Team"}
               </span>
@@ -279,30 +293,57 @@ export function PackagesGrid({
         </article>
       </div>
 
-      {/* Quantity Discounts Strip for Individual Orders */}
-      {(promo2 || promo3) && (
-        <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl border border-[#E8E1F2] bg-white px-5 py-4 text-xs font-bold text-[#241747] shadow-2xs">
+      {/* Unified Shared Details Bar Beneath the 3 Books */}
+      <div className="mx-auto flex w-full max-w-5xl flex-col items-center gap-3 rounded-[24px] border border-[#E8E1F2] bg-[#FFFDF8] px-5 py-4 shadow-[0_8px_24px_-10px_rgba(99,36,197,0.12)]">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-[13px] font-extrabold text-[#241747] sm:gap-4">
           {promo2 && (
-            <span className="rounded-full bg-[#F3EAFF] px-3.5 py-1.5 text-[#6324c5]">
-              {isAr
-                ? `🎉 طلب كتابين: خصم ${promo2.percent}% على الكتب`
-                : `🎉 2 Books: ${promo2.percent}% off books`}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#F3EAFF] px-3.5 py-1.5 text-[#541CA9]">
+              <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#6324C5]" aria-hidden="true" />
+              <span>
+                {isAr
+                  ? `كتابان: خصم ${promo2.percent}%`
+                  : `2 Books: ${promo2.percent}% off`}
+              </span>
             </span>
           )}
+
           {promo3 && (
-            <span className="rounded-full bg-[#FFF0F6] px-3.5 py-1.5 text-[#b02360]">
-              {isAr
-                ? `🔥 3 كتب أو أكثر: خصم ${promo3.percent}% على الكتب`
-                : `🔥 3+ Books: ${promo3.percent}% off books`}
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[#FFF0F6] px-3.5 py-1.5 text-[#b02360]">
+              <Sparkles className="h-3.5 w-3.5 shrink-0 text-[#F65C96]" aria-hidden="true" />
+              <span>
+                {isAr
+                  ? `3 كتب فأكثر: خصم ${promo3.percent}%`
+                  : `3+ Books: ${promo3.percent}% off`}
+              </span>
             </span>
           )}
-          <span className="text-[#625B75]">
-            {isAr
-              ? "• هدية علبة الألوان (12 لون) تُضاف مرة واحدة مع كل أوردر • الشحن يُحدد حسب المحافظة"
-              : "• One 12-color pencil box gift included per order • Shipping varies by governorate"}
+
+          <span className="inline-flex items-center gap-1.5 text-[#241747]">
+            <Truck className="h-4 w-4 shrink-0 text-[#6324C5]" aria-hidden="true" />
+            <span>{isAr ? RAQEEM_SLA_AR : RAQEEM_SLA_EN}</span>
+          </span>
+
+          <span className="inline-flex items-center gap-1.5 text-[#241747]">
+            <Wallet className="h-4 w-4 shrink-0 text-[#6324C5]" aria-hidden="true" />
+            <span>
+              {isAr ? "ديبوزت قبل بدء التنفيذ" : "Deposit before production"}
+            </span>
+          </span>
+
+          <span className="inline-flex items-center gap-1.5 text-[#241747]">
+            <MapPin className="h-4 w-4 shrink-0 text-[#6324C5]" aria-hidden="true" />
+            <span>
+              {isAr ? "الشحن حسب المحافظة" : "Shipping varies by governorate"}
+            </span>
           </span>
         </div>
-      )}
+
+        <p className="text-center text-[12px] leading-relaxed font-semibold text-[#625B75]">
+          {isAr
+            ? "الخصم يُطبّق على قيمة الكتب فقط (الشحن غير مشمول بالخصم)، وعلبة الألوان 12 لون هدية واحدة مع كل أوردر."
+            : "Quantity discounts apply to book subtotal only (shipping is never discounted), and 1 box of 12 colors is gifted per order."}
+        </p>
+      </div>
     </div>
   );
 }

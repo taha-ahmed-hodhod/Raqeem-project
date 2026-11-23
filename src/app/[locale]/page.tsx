@@ -5,8 +5,8 @@ import {
   ClipboardList,
   FileText,
   Gift,
-  Info,
   Layers,
+  Pencil,
   Smile,
   Truck,
 } from "lucide-react";
@@ -169,28 +169,25 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* 4. Pricing & Special Offers (الأسعار والعروض) */}
+      {/* 4. Pricing & Special Offers (باقات كتب التلوين المخصصة) */}
       <section id="pricing-section" className="w-full bg-white py-16">
-        <div className="mx-auto flex max-w-7xl flex-col gap-12 px-6 lg:px-10">
-          <div className="mx-auto flex max-w-2xl flex-col items-center gap-1.5 text-center">
-            <span className="rounded-full bg-[#FFF9DE] px-3 py-1 text-[14px] font-bold text-[#B76B00]">
-              {isAr
-                ? "شفافية كاملة وأسعار في متناول الأسرة"
-                : t("pricingSection.badge")}
-            </span>
-            <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-10">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-2 text-center">
+            <h2 className="text-[28px] leading-[1.3] font-extrabold text-[#43158C] sm:text-[36px] lg:text-[42px]">
               {isAr
                 ? "باقات كتب التلوين المخصصة"
                 : t("pricingSection.title")}
             </h2>
-            <p className="text-[16px] leading-[1.8] text-[#625B75]">
-              {isAr
-                ? "سعر ثابت ومحدد بالجنيه المصري يشمل الرسم المخصص والطباعة الفاخرة والتغليف الخاص."
-                : t("pricingSection.subtitle")}
-            </p>
+            <div
+              aria-hidden="true"
+              className="flex items-center justify-center gap-2"
+            >
+              <span className="h-1.5 w-36 rounded-full bg-gradient-to-r from-[#FFC928]/40 via-[#FFC928] to-[#F59E0B] sm:w-44" />
+              <Pencil className="h-5 w-5 -rotate-12 text-[#F59E0B]" />
+            </div>
           </div>
 
-          {/* 3 Packages Grid: 12-Page, 24-Page (with 12-Color Gift) & Corporate Package */}
+          {/* 3 Storybook-Series Packages + Unified Shared Details Bar */}
           <ScrollReveal>
             <PackagesGrid
               locale={typedLocale}
@@ -198,24 +195,6 @@ export default async function HomePage({
               promotions={cmsData.promotions}
             />
           </ScrollReveal>
-
-          {/* Transparent Shipping Note */}
-          <div className="mx-auto flex w-full max-w-4xl items-start gap-2 rounded-xl bg-[#F2EEFA] p-3 text-[12px] font-medium text-[#625B75] shadow-sm">
-            <Info
-              className="mt-0.5 h-5 w-5 shrink-0 text-[#6324c5]"
-              aria-hidden="true"
-            />
-            <span>
-              <strong>
-                {isAr
-                  ? "ملاحظة هامة بخصوص الشحن والديبوزت:"
-                  : "Important note on shipping & deposit:"}
-              </strong>{" "}
-              {isAr
-                ? "مصاريف الشحن تتحدد بدقة حسب محافظتك بعد إرسال الطلب، دفع الديبوزت مطلوب قبل بدء التنفيذ، ومدة التنفيذ والتوصيل من 5 إلى 7 أيام."
-                : t("pricingSection.shippingNote")}
-            </span>
-          </div>
         </div>
       </section>
 
