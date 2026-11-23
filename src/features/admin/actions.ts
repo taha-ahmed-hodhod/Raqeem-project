@@ -7,6 +7,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   evaluateAdminAccess,
   requireAdminAccess,
+  verifyAdminAccess,
 } from "@/lib/security/admin-auth";
 import type { OrderLifecycleStage } from "@/lib/supabase/types";
 
@@ -397,8 +398,15 @@ export async function createPortfolioEntryAction(
 
 export async function updateSiteContentAction(
   formData: FormData,
-): Promise<{ ok: boolean; error?: string }> {
-  await requireAdminAccess();
+): Promise<{ ok: boolean; error?: string; requiresLogin?: boolean }> {
+  const access = await verifyAdminAccess();
+  if (!access.authorized) {
+    return {
+      ok: false,
+      requiresLogin: true,
+      error: "انتهت جلسة تسجيل الدخول. يرجى تسجيل الدخول مرة أخرى.",
+    };
+  }
 
   const key = String(formData.get("key") ?? "").trim();
   const valueAr = String(formData.get("valueAr") ?? "").trim();
@@ -409,18 +417,22 @@ export async function updateSiteContentAction(
   }
 
   const supabase = await createSupabaseServerClient();
-  const { error } = await supabase.from("site_content").upsert({
-    key,
-    value: valueAr,
-    value_en: valueEn || null,
-    updated_at: new Date().toISOString(),
-  });
+  const { error } = await supabase.from("site_content").upsert(
+    {
+      key,
+      value: valueAr,
+      value_en: valueEn || null,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" },
+  );
 
   if (error) {
-    return { ok: false, error: error.message };
+    return { ok: false, error: `تعذر الحفظ: ${error.message}` };
   }
 
   revalidatePath("/admin/content");
+  revalidatePath("/", "layout");
   revalidatePath("/ar");
   revalidatePath("/en");
   return { ok: true };

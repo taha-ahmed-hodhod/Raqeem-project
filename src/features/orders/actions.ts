@@ -206,20 +206,19 @@ export async function submitOrderRequestAction(
     };
   }
 
-  const supabase = getServerSupabaseForOrderMutations();
+  try {
+    const supabase = getServerSupabaseForOrderMutations();
 
-  const rpcItems = input.items.map((item) => ({
-    page_count: item.pageCount,
-    quantity: item.quantity,
-    child_name: item.childName,
-    child_age: Math.min(Math.max(item.childAge, 1), 18),
-    age_label:
-      item.ageLabel ??
-      (item.childAge > 18 ? "أكبر من 18 سنة" : `${item.childAge} سنوات`),
-    interests: item.interests ?? null,
-    notes: item.notes ?? null,
-    photo_path: item.photoPath,
-  }));
+    const rpcItems = input.items.map((item) => ({
+      page_count: item.pageCount,
+      quantity: item.quantity,
+      child_name: item.childName,
+      child_age: Math.min(Math.max(item.childAge, 1), 18),
+      age_label: item.ageLabel ?? `${item.childAge} سنة`,
+      interests: item.interests ?? null,
+      notes: item.notes ?? null,
+      photo_path: item.photoPath,
+    }));
 
     const { data, error } = await supabase.rpc("submit_order_request_v2", {
       p_idempotency_key: input.idempotencyKey,
@@ -234,39 +233,48 @@ export async function submitOrderRequestAction(
       p_items: rpcItems,
     });
 
-    if(error || !data) {
+    if (error || !data) {
+      console.error("[submitOrderRequestAction] RPC failed:", error?.message);
       return {
         ok: false,
         errorCode: "submission_failed",
-        message: error?.message ?? "rpc_failed",
+        message: "حصل خطأ ولم يتم إرسال الطلب. يرجى المحاولة مرة أخرى.",
+      };
+    }
+
+    const result = data as {
+      order_id: string;
+      reference: string;
+      deduplicated: boolean;
+    };
+
+    // Best-effort server-side notification dispatch (Web Push + Resend Email).
+    // Order & in-app admin notification are already durably committed in Postgres,
+    // so external push/email failures never block the customer's request.
+    if (!result.deduplicated) {
+      try {
+        await dispatchNotificationOutbox({
+          orderId: result.order_id,
+          limit: 4,
+        });
+      } catch {
+        // Outbox rows remain pending in DB for subsequent retry.
+      }
+    }
+
+    return {
+      ok: true,
+      orderId: result.order_id,
+      reference: result.reference,
+      deduplicated: Boolean(result.deduplicated),
+      snapshot,
+    };
+  } catch (err) {
+    console.error("[submitOrderRequestAction] Unexpected error:", err);
+    return {
+      ok: false,
+      errorCode: "submission_failed",
+      message: "حصل خطأ ولم يتم إرسال الطلب. يرجى المحاولة مرة أخرى.",
     };
   }
-
-const result = data as {
-  order_id: string;
-  reference: string;
-  deduplicated: boolean;
-};
-
-// Best-effort server-side notification dispatch (Web Push + Resend Email).
-// Order & in-app admin notification are already durably committed in Postgres,
-// so external push/email failures never block the customer's request.
-if (!result.deduplicated) {
-  try {
-    await dispatchNotificationOutbox({
-      orderId: result.order_id,
-      limit: 4,
-    });
-  } catch {
-    // Outbox rows remain pending in DB for subsequent retry.
-  }
-}
-
-return {
-  ok: true,
-  orderId: result.order_id,
-  reference: result.reference,
-  deduplicated: Boolean(result.deduplicated),
-  snapshot,
-};
 }

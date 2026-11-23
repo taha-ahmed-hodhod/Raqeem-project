@@ -2,7 +2,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   BadgeCheck,
   Brush,
-  ClipboardList,
   FileText,
   Gift,
   Layers,
@@ -43,6 +42,9 @@ export default async function HomePage({
     getPublishedPortfolioItems(),
   ]);
 
+  const titleOverride = isAr
+    ? cmsData.heroOverrides.titleAr
+    : cmsData.heroOverrides.titleEn;
   const subtitleOverride = isAr
     ? cmsData.heroOverrides.subtitleAr
     : cmsData.heroOverrides.subtitleEn;
@@ -103,9 +105,10 @@ export default async function HomePage({
       {/* Promotional Poster Popup (shown once per session when enabled in Admin) */}
       <PromotionalPosterPopup poster={cmsData.posterPopup} />
 
-      {/* 1. Hero Section (Live Admin-editable Hero Image) */}
+      {/* 1. Hero Section (Live Admin-editable Hero Text & Image) */}
       <HeroInteractiveSection
         bookVariants={cmsData.bookVariants}
+        titleOverride={titleOverride}
         subtitleOverride={subtitleOverride}
         heroImageUrl={cmsData.heroOverrides.imageUrl}
       />
@@ -208,20 +211,24 @@ export default async function HomePage({
       {/* 6. Embedded Order Form Section ("اطلب كتابك الآن") */}
       <section
         id="order-form-section"
-        className="w-full bg-white py-16"
+        className="w-full border-y border-[#E7DAF5] bg-gradient-to-b from-[#EFE3FF]/75 via-[#F6F0FF] to-[#EFE3FF]/75 py-16"
       >
-        <ScrollReveal className="mx-auto flex max-w-6xl flex-col gap-8 px-6 lg:px-10">
-          <div className="flex flex-col items-center gap-1.5 text-center">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#6324c5] text-white shadow-md">
-              <ClipboardList className="h-6 w-6" aria-hidden="true" />
-            </div>
-            <h2 className="text-[26px] leading-[1.4] font-extrabold text-[#241747] lg:text-[34px] lg:leading-[1.35]">
+        <ScrollReveal className="mx-auto flex max-w-6xl flex-col gap-8 px-4 sm:px-6 lg:px-10">
+          <div className="flex flex-col items-center gap-2 text-center">
+            <h2 className="text-[30px] leading-[1.3] font-black text-[#4B127A] sm:text-[38px] lg:text-[42px]">
               {isAr ? "اطلب كتابك الآن" : "Order Your Book Now"}
             </h2>
-            <p className="max-w-lg text-[16px] leading-[1.8] text-[#625B75]">
+            <div
+              aria-hidden="true"
+              className="flex items-center justify-center gap-2"
+            >
+              <span className="h-1.5 w-36 rounded-full bg-gradient-to-r from-[#FFC928]/40 via-[#FFC928] to-[#F59E0B] sm:w-44" />
+              <Pencil className="h-5 w-5 -rotate-12 text-[#F59E0B]" />
+            </div>
+            <p className="mt-1 max-w-lg text-[15px] leading-[1.75] font-bold text-[#523970] sm:text-[16px]">
               {isAr
-                ? "املأ البيانات التالية لنفسك أو لمن تحب وسيتواصل معك فريق رقيم لتأكيد التفاصيل والشحن — مدة التنفيذ والتوصيل من 5 إلى 7 أيام."
-                : "Fill in the details below for yourself or a loved one and the Raqeem team will confirm everything — production & delivery take 5 to 7 days."}
+                ? "املأ البيانات التالية لنفسك أو لمن تحب وسيتواصل معك فريق رقيم لتأكيد التفاصيل والشحن."
+                : "Fill in the details below for yourself or a loved one and the Raqeem team will confirm everything."}
             </p>
           </div>
 

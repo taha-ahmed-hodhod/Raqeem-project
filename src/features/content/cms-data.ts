@@ -37,9 +37,15 @@ export interface PublicCatalogAndCmsData {
   faqs: FaqItem[];
   testimonials: TestimonialItem[];
   heroOverrides: {
+    titleAr?: string;
+    titleEn?: string;
     subtitleAr?: string;
     subtitleEn?: string;
     imageUrl?: string;
+  };
+  announcementBar: {
+    ar: string | null;
+    en: string | null;
   };
   reviews: CustomerReviewRow[];
   socialLinks: SocialLinkRow[];
@@ -204,6 +210,10 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
     heroOverrides: {
       imageUrl: "/images/stitch/hero-main.png",
     },
+    announcementBar: {
+      ar: null,
+      en: null,
+    },
     reviews: [],
     socialLinks: [
       {
@@ -243,7 +253,12 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
     const supabase = createClient(
       env.NEXT_PUBLIC_SUPABASE_URL,
       env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      { auth: { persistSession: false, autoRefreshToken: false } },
+      {
+        auth: { persistSession: false, autoRefreshToken: false },
+        global: {
+          fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+        },
+      },
     );
 
     const [
@@ -302,6 +317,10 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
         : [];
 
     const heroOverrides: PublicCatalogAndCmsData["heroOverrides"] = {};
+    const announcementBar: PublicCatalogAndCmsData["announcementBar"] = {
+      ar: null,
+      en: null,
+    };
     let faqs = DEFAULT_FAQS;
     let testimonials = DEFAULT_TESTIMONIALS;
 
@@ -312,12 +331,21 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
         value_en?: string | null;
         value_json?: unknown;
       }>) {
-        if (row.key === "hero_subtitle") {
-          heroOverrides.subtitleAr = row.value;
-          if (row.value_en) heroOverrides.subtitleEn = row.value_en;
+        if (row.key === "hero_title" && row.value?.trim()) {
+          heroOverrides.titleAr = row.value.trim();
+          if (row.value_en?.trim()) heroOverrides.titleEn = row.value_en.trim();
         }
-        if (row.key === "hero_image_url" && row.value) {
-          heroOverrides.imageUrl = row.value;
+        if (row.key === "hero_subtitle" && row.value?.trim()) {
+          heroOverrides.subtitleAr = row.value.trim();
+          if (row.value_en?.trim())
+            heroOverrides.subtitleEn = row.value_en.trim();
+        }
+        if (row.key === "hero_image_url" && row.value?.trim()) {
+          heroOverrides.imageUrl = row.value.trim();
+        }
+        if (row.key === "announcement_bar") {
+          announcementBar.ar = row.value?.trim() || null;
+          announcementBar.en = row.value_en?.trim() || null;
         }
         if (row.key === "faqs" && Array.isArray(row.value_json)) {
           faqs = row.value_json as FaqItem[];
@@ -381,6 +409,7 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
             ...heroOverrides,
             imageUrl: heroOverrides.imageUrl || "/images/stitch/hero-main.png",
           },
+          announcementBar,
           reviews,
           socialLinks,
           posterPopup,
@@ -390,3 +419,40 @@ export async function getPublicCatalogAndCmsData(): Promise<PublicCatalogAndCmsD
         return fallback;
       }
     }
+
+export async function getAnnouncementBarContent(): Promise<{
+  ar: string | null;
+  en: string | null;
+}> {
+  try {
+    const env = getPublicEnv();
+    if (!env.NEXT_PUBLIC_SUPABASE_URL || !env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+      return { ar: null, en: null };
+    }
+
+    const supabase = createClient(
+      env.NEXT_PUBLIC_SUPABASE_URL,
+      env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+      {
+        auth: { persistSession: false, autoRefreshToken: false },
+        global: {
+          fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+        },
+      },
+    );
+
+    const { data } = await supabase
+      .from("site_content")
+      .select("value, value_en")
+      .eq("key", "announcement_bar")
+      .maybeSingle();
+
+    if (!data) return { ar: null, en: null };
+    return {
+      ar: typeof data.value === "string" && data.value.trim() ? data.value.trim() : null,
+      en: typeof data.value_en === "string" && data.value_en.trim() ? data.value_en.trim() : null,
+    };
+  } catch {
+    return { ar: null, en: null };
+  }
+}

@@ -14,6 +14,7 @@ import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { ToastProvider } from "@/components/shared/toast-provider";
 import { PublicLiveSync } from "@/components/shared/public-live-sync";
+import { getAnnouncementBarContent } from "@/features/content/cms-data";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -86,7 +87,10 @@ export default async function LocaleLayout({
   }
 
   setRequestLocale(locale);
-  const messages = await getMessages();
+  const [messages, announcementBar] = await Promise.all([
+    getMessages(),
+    getAnnouncementBarContent(),
+  ]);
   const dir = isRtlLocale(locale as Locale) ? "rtl" : "ltr";
 
   return (
@@ -105,7 +109,10 @@ export default async function LocaleLayout({
           <ToastProvider>
             <PublicLiveSync />
             <div className="fixed inset-x-0 top-0 z-50">
-              <AnnouncementBar />
+              <AnnouncementBar
+                customTextAr={announcementBar.ar}
+                customTextEn={announcementBar.en}
+              />
               <SiteHeader />
             </div>
             <main className="min-h-screen w-full flex-1 bg-[#F8F5FF] pt-[104px] md:pt-[108px]">

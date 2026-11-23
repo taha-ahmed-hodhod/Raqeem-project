@@ -2,17 +2,51 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useLocale } from "next-intl";
-import { Gift, Truck } from "lucide-react";
+import { Gift, Sparkles, Truck } from "lucide-react";
 import type { Locale } from "@/lib/i18n/routing";
 
 const SPEED_PX_PER_SEC = 22;
 
-export function AnnouncementBar() {
+interface AnnouncementBarProps {
+  customTextAr?: string | null;
+  customTextEn?: string | null;
+}
+
+export function AnnouncementBar({
+  customTextAr,
+  customTextEn,
+}: AnnouncementBarProps = {}) {
   const locale = useLocale() as Locale;
   const isAr = locale === "ar";
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const itemRef = useRef<HTMLDivElement | null>(null);
+
+  const rawCustom = isAr ? customTextAr?.trim() : customTextEn?.trim();
+
+  // If admin entered two parts separated by "|", render both with Gift & Truck icons;
+  // if admin entered a single custom announcement, render that single message cleanly.
+  const customParts = rawCustom
+    ? rawCustom
+        .split("|")
+        .map((p) => p.trim())
+        .filter(Boolean)
+    : [];
+
+  const isSingleCustom = customParts.length === 1;
+  const firstMsg =
+    customParts[0] ??
+    (isAr
+      ? "كتاب تلوين مخصوص لطفلك"
+      : "Personalized coloring book for your child");
+  const secondMsg =
+    customParts.length >= 2
+      ? customParts[1]
+      : isSingleCustom
+        ? null
+        : isAr
+          ? "توصيل لكل محافظات مصر"
+          : "Delivery across all of Egypt";
 
   const [tickerMetrics, setTickerMetrics] = useState<{
     startPx: number;
@@ -53,14 +87,7 @@ export function AnnouncementBar() {
       observer.observe(itemEl);
       return () => observer.disconnect();
     }
-  }, [isAr]);
-
-  const firstMsg = isAr
-    ? "كتاب تلوين مخصوص لطفلك"
-    : "Personalized coloring book for your child";
-  const secondMsg = isAr
-    ? "توصيل لكل محافظات مصر"
-    : "Delivery across all of Egypt";
+  }, [isAr, firstMsg, secondMsg]);
 
   const tickerStyle = {
     "--raqeem-ticker-start": `${tickerMetrics.startPx}px`,
@@ -87,48 +114,70 @@ export function AnnouncementBar() {
           style={tickerStyle}
         >
           <span className="inline-flex items-center gap-2 whitespace-nowrap text-[15px] leading-none font-bold text-white sm:text-[14px]">
-            <Gift
-              className="h-4 w-4 shrink-0 text-[#FFC928]"
-              aria-hidden="true"
-            />
+            {isSingleCustom ? (
+              <Sparkles
+                className="h-4 w-4 shrink-0 text-[#FFC928]"
+                aria-hidden="true"
+              />
+            ) : (
+              <Gift
+                className="h-4 w-4 shrink-0 text-[#FFC928]"
+                aria-hidden="true"
+              />
+            )}
             <span>{firstMsg}</span>
           </span>
 
-          <span
-            aria-hidden="true"
-            className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#B48CF2]"
-          />
+          {secondMsg && (
+            <>
+              <span
+                aria-hidden="true"
+                className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#B48CF2]"
+              />
 
-          <span className="inline-flex items-center gap-2 whitespace-nowrap text-[15px] leading-none font-bold text-white sm:text-[14px]">
-            <Truck
-              className="h-4 w-4 shrink-0 text-[#FFC928]"
-              aria-hidden="true"
-            />
-            <span>{secondMsg}</span>
-          </span>
+              <span className="inline-flex items-center gap-2 whitespace-nowrap text-[15px] leading-none font-bold text-white sm:text-[14px]">
+                <Truck
+                  className="h-4 w-4 shrink-0 text-[#FFC928]"
+                  aria-hidden="true"
+                />
+                <span>{secondMsg}</span>
+              </span>
+            </>
+          )}
         </div>
       </div>
 
       {/* Static accessible fallback when prefers-reduced-motion is enabled */}
       <div className="hidden w-full items-center justify-center gap-3 px-4 motion-reduce:flex">
         <span className="inline-flex items-center gap-1.5 truncate text-[14px] font-bold text-white">
-          <Gift
-            className="h-4 w-4 shrink-0 text-[#FFC928]"
-            aria-hidden="true"
-          />
+          {isSingleCustom ? (
+            <Sparkles
+              className="h-4 w-4 shrink-0 text-[#FFC928]"
+              aria-hidden="true"
+            />
+          ) : (
+            <Gift
+              className="h-4 w-4 shrink-0 text-[#FFC928]"
+              aria-hidden="true"
+            />
+          )}
           <span>{firstMsg}</span>
         </span>
-        <span
-          aria-hidden="true"
-          className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-[#B48CF2] sm:inline-block"
-        />
-        <span className="hidden items-center gap-1.5 truncate text-[14px] font-bold text-white sm:inline-flex">
-          <Truck
-            className="h-4 w-4 shrink-0 text-[#FFC928]"
-            aria-hidden="true"
-          />
-          <span>{secondMsg}</span>
-        </span>
+        {secondMsg && (
+          <>
+            <span
+              aria-hidden="true"
+              className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-[#B48CF2] sm:inline-block"
+            />
+            <span className="hidden items-center gap-1.5 truncate text-[14px] font-bold text-white sm:inline-flex">
+              <Truck
+                className="h-4 w-4 shrink-0 text-[#FFC928]"
+                aria-hidden="true"
+              />
+              <span>{secondMsg}</span>
+            </span>
+          </>
+        )}
       </div>
     </div>
   );
